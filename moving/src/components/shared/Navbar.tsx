@@ -1,25 +1,46 @@
 import SearchICon from '@/icons/searchIcon.svg';
 import Logo from '@/images/Logo.svg';
 import DropdownIcon from '@/icons/dropdownIcon.svg';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
+  const [isTransparent, setIsTransparent] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsTransparent(window.scrollY <= 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return() => {
+      window.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
 
   const handleFocus = () => {
     inputRef.current?.focus();
   };
 
+
+
   return (
-    <div className="fixed top-0 w-full">
-      <header className="mx-40 my-9 flex items-center justify-between">
+<motion.div
+      animate={{
+        backgroundColor: isTransparent ? 'rgba(0, 0, 0, 0)' : 'rgba(0, 0, 0, 0.8)',
+      }}
+      transition={{ duration: 0.5 }}
+      className="fixed top-0 w-full"
+    >
+      <header className="mx-40 my-[26.75px] flex items-center justify-between">
         <Logo />
         <div className="flex items-center">
           <div className="mr-10 flex items-center">
-            <span className="mr-4">장르</span>
+            <span className="mr-4 text-white">장르</span>
             <DropdownIcon />
           </div>
-          <div className="flex h-9 w-[360px] items-center justify-between rounded-lg bg-[#404040] px-4">
+          <div className="flex h-9 w-[360px] items-center justify-between rounded-lg bg-[#404040] px-4 opacity-50">
             <input
               ref={inputRef}
               type="text"
@@ -32,6 +53,7 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-    </div>
+      </motion.div>
+    
   );
 }
