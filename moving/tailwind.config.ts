@@ -18,6 +18,20 @@ export default {
         black : "#282C33",
         gray : "#3E4248",
       },
+      keyframes: {
+        zoomBg: {
+          '0%': { 'background-size': '140%' },
+          '10%': { 'background-size': '140%' },
+          '45%': { 'background-size': '100%' },
+          '50%': { 'background-size': '100%' },
+          '55%': { 'background-size': '100%' },
+          '90%': { 'background-size': '140%' },
+          '100%': { 'background-size': '140%' },
+        },
+      },
+      animation: {
+        zoomBg: 'zoomBg 10s ease-in-out infinite',
+      },
     },
   },
   plugins: [],
