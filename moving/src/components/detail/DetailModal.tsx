@@ -14,9 +14,9 @@ export default function DetailModal() {
   const MOVIE_TAB_LIST = ['시리즈', '연관작품', '사용자 평', '상세정보'];
   const [tabIsActive, setTabIsActive] = useState(0);
   return (
-    <div className="bg-black">
+    <div className="mx-auto w-full max-w-[1080px] bg-black">
       <div
-        className="mb-20 bg-cover bg-center bg-no-repeat px-20 pt-7"
+        className="animate-zoomBg mb-20 bg-center bg-no-repeat px-20 pt-7"
         style={{
           backgroundImage:
             "linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url('/images/modalTestImage.png')",
