@@ -14,24 +14,24 @@ export default function Navbar() {
     };
     window.addEventListener('scroll', handleScroll);
 
-    return() => {
-      window.removeEventListener("scroll", handleScroll);
-    }
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const handleFocus = () => {
     inputRef.current?.focus();
   };
 
-
-
   return (
-<motion.div
+    <motion.div
       animate={{
-        backgroundColor: isTransparent ? 'rgba(0, 0, 0, 0)' : 'rgba(0, 0, 0, 0.8)',
+        backgroundColor: isTransparent
+          ? 'rgba(0, 0, 0, 0)'
+          : 'rgba(0, 0, 0, 0.8)',
       }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 w-full"
+      className="fixed top-0 z-50 w-full"
     >
       <header className="mx-40 my-[26.75px] flex items-center justify-between">
         <Logo />
@@ -53,7 +53,6 @@ export default function Navbar() {
           </div>
         </div>
       </header>
-      </motion.div>
-    
+    </motion.div>
   );
 }
