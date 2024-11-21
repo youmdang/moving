@@ -3,6 +3,9 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['image.tmdb.org'], // 외부 이미지 도메인 추가
+  },
   webpack: (config) => {
     // @svgr/webpack 설정 추가
     config.module.rules.push({

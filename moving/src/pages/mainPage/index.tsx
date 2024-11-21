@@ -3,7 +3,7 @@ import LeftArrow from '@/icons/left-arrow-Icon.svg';
 import RightArrow from '@/icons/right-arrow-Icon.svg';
 import WeeksTrend from '@/components/mainPage/weeksTrend';
 import GameMovie from '@/components/mainPage/gameMovie';
-import BeforeOpening from '@/components/mainPage/beforeOpening';
+import BeforeOpening from '@/components/mainPage/ComingSoonMovies';
 import PopularMovies from '@/components/mainPage/popularMovies';
 import Series from '@/components/mainPage/series';
 import Membership from '@/components/mainPage/membership';
