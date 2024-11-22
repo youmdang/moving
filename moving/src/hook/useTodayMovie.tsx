@@ -1,10 +1,10 @@
-import { fetchWeekTrend } from '@/api/mainpageAPI';
+import { fetchToday } from '@/api/mainpageAPI';
 import { defaultMoviePageType } from '@/types/defaultMovie';
 import { useQuery } from '@tanstack/react-query';
 
-export const useWeekTrend = () => {
+export const useTodayMovie = () => {
   return useQuery<defaultMoviePageType>({
-    queryKey: ['weeksTrend'],
-    queryFn: fetchWeekTrend,
+    queryKey: ['todayMovie'],
+    queryFn: fetchToday,
   });
 };
