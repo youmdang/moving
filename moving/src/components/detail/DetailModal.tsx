@@ -1,25 +1,109 @@
 import Logo from '@/images/Logo.svg';
 import Star from '@/icons/starIcon.svg';
 import Favorite from '@/icons/FavoriteIcon.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { match } from 'ts-pattern';
 import SeriesTab from './components/SeriesTab';
 import RelatedWorksTab from './components/RelatedWorksTab';
 import UserReviewsTab from './components/UserReviewsTab';
 import DetailsTab from './components/DetailsTab';
+import { useQuery } from '@tanstack/react-query';
+import {
+  fetchCertificationData,
+  fetchCreditData,
+  fetchMovieData,
+  fetchSeriesData,
+} from '@/lib/apis/modal/api';
 
-export default function DetailModal() {
+interface DetailModalProps {
+  isOpacity: boolean;
+}
+
+export default function DetailModal({ isOpacity }: DetailModalProps) {
   const reviewFavoriteClass = 'flex items-center gap-2 text-xs text-white';
-  const STATE_LIST = ['시즈 3개', '15세', '가족영화', '히어로']; // 데이터 연동작업후 삭제
   const MOVIE_TAB_LIST = ['시리즈', '연관작품', '사용자 평', '상세정보'];
   const [tabIsActive, setTabIsActive] = useState(0);
+
+  // 영화 데이터
+  const {
+    data: movieData,
+    isLoading: movieIsLoading,
+    isError: movieIsError,
+  } = useQuery({
+    queryKey: ['movieData'],
+    queryFn: async () => {
+      const res = await fetchMovieData({ movieId: 912649 });
+      console.log(res);
+      return res;
+    },
+  });
+
+  // 영화 출연진 데이터
+  const {
+    data: creditData,
+    isLoading: creditIsLoading,
+    isError: creditIsError,
+  } = useQuery({
+    queryKey: ['creditData'],
+    queryFn: async () => {
+      const res = await fetchCreditData({ movieId: 912649 });
+      console.log(res);
+      return res;
+    },
+  });
+
+  // 영화 시리즈 데이터
+  const {
+    data: seriesData,
+    isLoading: seriesIsLoading,
+    isError: seriesIsError,
+  } = useQuery({
+    queryKey: ['seriesData'],
+    queryFn: async () => {
+      const res = await fetchSeriesData({
+        collectionId: movieData.belongs_to_collection.id,
+      });
+      console.log(res);
+      return res;
+    },
+  });
+
+  // 영화 나이제한 데이터
+  const {
+    data: ageData,
+    isLoading: ageIsLoading,
+    isError: ageIsError,
+  } = useQuery({
+    queryKey: ['ageData'],
+    queryFn: async () => {
+      const res = await fetchCertificationData({ movieId: 912649 });
+      const krData = res.results.find((key: { iso_3166_1: string }) => {
+        return key.iso_3166_1 === 'KR';
+      });
+      return krData.release_dates[0];
+    },
+  });
+
+  const movieYear = new Date(movieData?.release_date).getFullYear(); // 영화 개봉년도
+
+  useEffect(() => {
+    setTabIsActive(0);
+  }, [isOpacity]);
+
+  if (movieIsLoading || ageIsLoading || seriesIsLoading || creditIsLoading) {
+    return <div>로딩중...</div>;
+  }
+
+  if (movieIsError || ageIsError || seriesIsError || creditIsError) {
+    return <div>에러...</div>;
+  }
+
   return (
-    <div className="mx-auto w-full max-w-[1080px] bg-black">
+    <div className="bg-[#000000 relative mx-auto w-full max-w-[1080px] overflow-y-auto">
       <div
-        className="animate-zoomBg mb-20 bg-center bg-no-repeat px-20 pt-7"
+        className="mb-20 animate-zoomBg bg-cover bg-center bg-no-repeat px-20 pt-7"
         style={{
-          backgroundImage:
-            "linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url('/images/modalTestImage.png')",
+          backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url(${process.env.NEXT_PUBLIC_BACK_IMAGE_URL}${movieData.backdrop_path})`,
         }}
       >
         <h2 className="mb-52">
@@ -29,7 +113,7 @@ export default function DetailModal() {
           <div className="mb-4 flex items-center gap-6">
             <span className={`${reviewFavoriteClass} font-semibold`}>
               <Star />
-              8.1
+              {movieData.vote_average}
             </span>
             <button className={`${reviewFavoriteClass} font-normal`}>
               <Favorite />
@@ -37,26 +121,32 @@ export default function DetailModal() {
             </button>
           </div>
           <h3 className="flex items-end gap-4 text-5xl font-semibold text-white">
-            스파이더맨: 어크로스 더 유니버스{' '}
-            <span className="text-3xl font-normal text-[#D9D9D9]">(2023)</span>
+            {movieData.title}{' '}
+            <span className="text-3xl font-normal text-[#D9D9D9]">
+              ({movieYear})
+            </span>
           </h3>
           <ul className="flex items-center gap-2">
-            {STATE_LIST.map((state, index) => {
+            <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
+              시리즈 {seriesData.parts.length}개
+            </li>
+            <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
+              {ageData.certification}세
+            </li>
+            {movieData.genres.map((genre: { id: number; name: string }) => {
               return (
                 <li
-                  key={index}
+                  key={genre.id}
                   className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white"
                 >
-                  {state}
+                  {genre.name}
                 </li>
               );
             })}
           </ul>
           <div className="flex justify-between gap-6">
-            <p className="basis-[70%] text-sm font-normal text-white">
-              여러 성장통을 겪으며 새로운 스파이더맨이 된 마일스 모랄레스. 그
-              앞에 다른 평행세계의 스파이더 우먼 그웬이 다시 나타난다. 모든
-              차원의 멀티버스 속 스파이더맨들을 만나게 되지만, 질서에 대한...
+            <p className="line-clamp-3 basis-[70%] break-keep text-sm font-normal text-white">
+              {movieData.overview}
             </p>
             <button
               type="button"
@@ -92,7 +182,7 @@ export default function DetailModal() {
 
       {match(tabIsActive)
         .with(0, () => {
-          return <SeriesTab />;
+          return <SeriesTab seriesData={seriesData} />;
         })
         .with(1, () => {
           return <RelatedWorksTab />;
@@ -101,10 +191,16 @@ export default function DetailModal() {
           return <UserReviewsTab />;
         })
         .with(3, () => {
-          return <DetailsTab />;
+          return (
+            <DetailsTab
+              movieData={movieData}
+              ageData={ageData}
+              creditData={creditData}
+            />
+          );
         })
         .otherwise(() => {
-          return <SeriesTab />;
+          return <SeriesTab seriesData={seriesData} />;
         })}
     </div>
   );
