@@ -1,6 +1,3 @@
-import Image from 'next/image';
-import LeftArrow from '@/icons/left-arrow-Icon.svg';
-import RightArrow from '@/icons/right-arrow-Icon.svg';
 import WeeksTrend from '@/components/mainPage/weeksTrend';
 import GameMovie from '@/components/mainPage/gameMovie';
 import BeforeOpening from '@/components/mainPage/ComingSoonMovies';
@@ -13,88 +10,14 @@ import YoutubeIcon from '@/icons/youtubeIcon.svg';
 import XIcon from '@/icons/x(sns)Icon.svg';
 import TiktokIcon from '@/icons/tiktokIcon.svg';
 import InstarIcon from '@/icons/instagramIcon.svg';
-
-const posterData = [
-  {
-    id: 1,
-    src: '/images/mainpage-width-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 2,
-    src: '/images/mainpage-width-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 3,
-    src: '/images/mainpage-width-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 4,
-    src: '/images/mainpage-width-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-];
+import MainBanner from '@/components/mainPage/MainBanner';
 
 export default function mainPage() {
   return (
     <>
       <main>
-        <section className="">
-          <div className="relative h-auto w-full">
-            <div
-              className="absolute inset-0 
-            bg-gradient-to-t from-[#131518] to-[rgba(59,63,69,0)]"
-            />
+        <MainBanner />
 
-            <Image
-              src={'/images/mainBanner.png'}
-              layout="responsive" // 반응형 크기 조정
-              width={1920} // 원본 이미지 너비
-              height={708} // 원본 이미지 높이
-              alt="메인 베너"
-            />
-            <div className="absolute bottom-0 mx-[8.5vw] text-center text-white">
-              <h1 className="flex flex-col gap-2 text-start text-white ">
-                <span className="ml-1 text-base">피터손 · 브렌다 슈에이</span>
-                <span className="text-6xl font-semibold">엘리멘탈</span>
-              </h1>
-              <ul className="relative flex gap-14">
-                <div className="absolute left-[-25px] top-[50%] flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full bg-white">
-                  <LeftArrow />
-                </div>
-                {posterData.map((poster) => (
-                  <li className="h-auto max-w-[358px]">
-                    <Image
-                      key={poster.id}
-                      src={poster.src}
-                      width={358}
-                      height={190}
-                      alt="가로 이미지"
-                    />
-                  </li>
-                ))}
-
-                <div className="absolute right-[-25px] top-[50%] flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full bg-white">
-                  <RightArrow />
-                </div>
-              </ul>
-            </div>
-          </div>
-        </section>
         <WeeksTrend />
 
         <GameMovie />

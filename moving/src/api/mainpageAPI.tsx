@@ -1,7 +1,9 @@
 import { shuffleArray } from '@/auth/shuffleArray';
 import { authAxiosInstance } from '@/lib/axiosInstance';
-import { defaultMoviePageType, defaultMovieType } from '@/types/defaultMovie';
-import { Result } from 'postcss';
+import {
+  defaultMoviePageType,
+  defaultMovieType,
+} from '@/types/mainPage/defaultMovie';
 
 //이번주 트랜드 GET
 export const fetchWeekTrend = async () => {
@@ -20,9 +22,9 @@ export const fetchGameMovie = async () => {
 };
 
 // 미개봉 신작영화 GET
-export const fetchComingSoonMovies = async () => {
+export const fetchUpcomingMovie = async () => {
   const response = await authAxiosInstance.get(
-    'movie/upcoming?language=ko&page=1'
+    'movie/upcoming?language=ko&page=1&region=KR'
   );
   return response.data;
 };
@@ -32,7 +34,7 @@ export const fetchPopular = async () => {
   const response = await authAxiosInstance.get(
     'movie/popular?language=ko&page=1'
   );
-  return response.data.results;
+  return response.data;
 };
 
 // 명장 시리즈 GET
@@ -41,7 +43,7 @@ export const fetchSeries = async (): Promise<defaultMoviePageType> => {
   const movies = await fetchPopular();
 
   const moviesWithCollections = await Promise.all(
-    movies.map(async (movie: defaultMovieType) => {
+    movies.results.map(async (movie: defaultMovieType) => {
       const detail = await authAxiosInstance
         .get(`movie/${movie.id}`)
         .catch(() => null);
@@ -91,4 +93,4 @@ export const fetchToday = async () => {
 };
 
 // 이미지 사용할때 기본 URL
-export const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
+export const BASE_IMAGE_URL = process.env.NEXT_PUBLIC_BACK_IMAGE_URL;

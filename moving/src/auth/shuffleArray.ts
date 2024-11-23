@@ -1,4 +1,4 @@
-import { defaultMovieType } from '@/types/defaultMovie';
+import { defaultMovieType } from '@/types/mainPage/defaultMovie';
 
 export const shuffleArray = (array: defaultMovieType[]) => {
   for (let i = array.length - 1; i > 0; i--) {

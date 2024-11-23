@@ -6,57 +6,6 @@ import { useEffect } from 'react';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import dayjs from 'dayjs';
 
-const posterData = [
-  {
-    id: 1,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 2,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 3,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 4,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 5,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 6,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-];
-
 export default function Series() {
   const { genres, fetchGenres } = useGenreStore();
   const { data, isLoading, isError } = useSeriesMovie();
@@ -79,7 +28,7 @@ export default function Series() {
   }
 
   if (isError) {
-    return <div> 네트워크 에러</div>;
+    return <div> 네트워크 에러3</div>;
   }
 
   return (

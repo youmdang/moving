@@ -20,3 +20,7 @@ export interface defaultMoviePageType {
   page: number; // 페이지번호
   results: defaultMovieType[]; // 영화목록
 }
+
+export interface fetchMovieIDProps {
+  movieId: number;
+}
