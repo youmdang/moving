@@ -46,7 +46,7 @@ const posterData = [
 
 export default function BeforeOpening() {
   return (
-    <section className="mx-[160px] mt-[72px] flex flex-col">
+    <section className="mx-[8.5vw] mt-[72px] flex flex-col">
       <h2 className="mb-7 text-2xl font-bold">❓곧 공개되는 신작영화</h2>
       <ul className="flex gap-[60px]">
         {posterData.map((poster) => (
