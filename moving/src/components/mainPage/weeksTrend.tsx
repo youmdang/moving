@@ -1,81 +1,67 @@
 import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
-
-const posterData = [
-  {
-    id: 1,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 2,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 3,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 4,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 5,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-  {
-    id: 6,
-    src: '/images/mainpage-length-image.png',
-    title: 'The Green Mile',
-    year: '2016',
-    rating: '9.2',
-    genre: 'Biographical',
-  },
-];
+import { useWeekTrend } from '@/hook/useWeekTrend';
+import dayjs from 'dayjs';
+import { useEffect } from 'react';
+import { useGenreStore } from '../../../store/useGenreStore';
+import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 
 export default function WeeksTrend() {
+  const { genres, fetchGenres } = useGenreStore();
+  const { data, isLoading, isError } = useWeekTrend();
+
+  useEffect(() => {
+    if (Object.keys(genres).length === 0) {
+      fetchGenres();
+    }
+  }, [genres, fetchGenres]);
+
+  // genre_ids 배열을 장르 이름으로 변환
+  const getGenreNames = (genreIds: number[]): string[] => {
+    return genreIds.map((id) => genres[id] || '알 수 없음');
+  };
+
+  const limitedData = data?.results.slice(0, 6);
+
+  if (isLoading) {
+    return <div> 로딩중</div>;
+  }
+
+  if (isError) {
+    return <div>네트워크 에러</div>;
+  }
+
   return (
     <section className="mx-[8.5vw] mt-[96px] flex flex-col ">
       <h2 className="mb-7 text-2xl font-bold">🔥이번주 트렌드</h2>
-      <ul className="flex gap-[72px]">
-        {posterData.map((poster) => (
-          <li key={poster.id} className="h-auto max-w-[207px] ">
-            <Image
-              src={poster.src}
-              width={206.67}
-              height={279}
-              alt="세로 포스터"
-            />
+      <ul className="flex justify-between">
+        {limitedData?.map((poster) => (
+          <li key={poster.id} className="h-auto max-w-[11vw] ">
+            <div className="relative h-[14.5vw] w-[10.53vw] ">
+              <Image
+                src={`${BASE_IMAGE_URL}${poster.poster_path}`}
+                layout="fill"
+                alt="세로 포스터"
+                className="max-h-[290px] rounded-2xl object-cover"
+              />
+            </div>
             <div className=" my-2 flex items-center justify-between">
-              <span className=" text-[1vw] font-semibold">The Green Mile</span>
+              <span className="max-w-[6.5vw] truncate break-normal text-[1vw] font-semibold">
+                {poster.title}
+              </span>
               <div className="ml-1 flex items-center">
                 <StarIcon />
-                <span className="ml-2 text-sm">9.2</span>
+                <span className="ml-2 text-sm">
+                  {poster.vote_average.toFixed(1)}
+                </span>
               </div>
             </div>
             <div className="flex items-center">
-              <span className="text-sm">2016</span>
-              <span className="ml-2 rounded-lg border border-[#f2b42e] px-2 py-[3px] text-[0.65vw]">
-                Biographical
+              <span className="text-sm">
+                {dayjs(poster.release_date).format('YYYY')}
+              </span>
+              <span className="ml-2 truncate rounded-lg border border-[#f2b42e] px-2 py-[3px] text-[0.65vw]">
+                {getGenreNames(poster.genre_ids).join(', ')}
               </span>
             </div>
           </li>
