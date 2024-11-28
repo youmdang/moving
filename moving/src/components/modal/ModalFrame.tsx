@@ -1,5 +1,5 @@
-import { useModal } from '@/lib/hook/useModal';
-import { ReactNode, useState } from 'react';
+import { useModalStore } from '@/lib/store/modalStore';
+import { ReactNode, useEffect, useRef } from 'react';
 
 interface ModalFrameProps {
   children: ReactNode;
@@ -14,6 +14,16 @@ export default function ModalFrame({
   isOpacity,
   handleModalClose,
 }: ModalFrameProps) {
+  const modalRef = useRef<HTMLDivElement | null>(null);
+  const { scrollTop, resetScrollTop } = useModalStore();
+
+  useEffect(() => {
+    if (scrollTop && modalRef.current) {
+      modalRef.current.scrollTop = 0;
+      resetScrollTop();
+    }
+  }, [scrollTop, resetScrollTop]);
+
   return (
     <div
       className={`fixed left-0 top-0 z-[100] h-screen w-full items-center justify-center`}
@@ -24,7 +34,8 @@ export default function ModalFrame({
         onClick={handleModalClose}
       />
       <div
-        className={`h-[95vh] max-h-[1200px] w-full max-w-[1080px] overflow-y-auto opacity-0 ${isOpacity ? 'animate-modalFadeIn' : 'animate-modalFadeOut'}`}
+        ref={modalRef}
+        className={`modal-scroll h-[95vh] max-h-[1200px] w-full max-w-[1080px] overflow-y-auto opacity-0 ${isOpacity ? 'animate-modalFadeIn' : 'animate-modalFadeOut'}`}
       >
         {children}
       </div>
