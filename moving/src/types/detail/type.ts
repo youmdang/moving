@@ -82,3 +82,50 @@ export interface SeriesData {
   parts: SeriesPartData[];
   poster_path: string;
 }
+
+export interface Acting {
+  adult: boolean;
+  cast_id: number;
+  character: string;
+  credit_id: string;
+  gender: number;
+  id: number;
+  known_for_department: string;
+  name: string;
+  order: number;
+  original_name: string;
+  popularity: number;
+  profile_path: string;
+}
+
+export interface Review {
+  id: number;
+  page: number;
+  results: ReviewResultData[];
+  total_pages: number;
+  total_results: number;
+}
+
+export interface ReviewResultData {
+  author: string;
+  author_details: ReviewAuthor;
+  content: string;
+  created_at: string;
+  id: string;
+  updated_at: string;
+  url: string;
+}
+
+export interface ReviewAuthor {
+  avatar_path: string;
+  name: string;
+  rating: number;
+  username: string;
+}
+
+export interface RelatedWork {
+  page: number;
+  results: SeriesPartData[];
+  total_pages: number;
+  total_results: number;
+}

@@ -12,8 +12,12 @@ import {
   fetchCertificationData,
   fetchCreditData,
   fetchMovieData,
+  fetchRecommendationData,
+  fetchReviewData,
   fetchSeriesData,
+  fetchTrailerData,
 } from '@/lib/apis/modal/api';
+import { useRouter } from 'next/router';
 
 interface DetailModalProps {
   isOpacity: boolean;
@@ -23,6 +27,8 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   const reviewFavoriteClass = 'flex items-center gap-2 text-xs text-white';
   const MOVIE_TAB_LIST = ['시리즈', '연관작품', '사용자 평', '상세정보'];
   const [tabIsActive, setTabIsActive] = useState(0);
+  const [movieId, setMovieId] = useState<number>(1159311);
+  const router = useRouter();
 
   // 영화 데이터
   const {
@@ -30,9 +36,9 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     isLoading: movieIsLoading,
     isError: movieIsError,
   } = useQuery({
-    queryKey: ['movieData'],
+    queryKey: ['movieData', movieId],
     queryFn: async () => {
-      const res = await fetchMovieData({ movieId: 912649 });
+      const res = await fetchMovieData({ movieId: movieId });
       console.log(res);
       return res;
     },
@@ -44,10 +50,54 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     isLoading: creditIsLoading,
     isError: creditIsError,
   } = useQuery({
-    queryKey: ['creditData'],
+    queryKey: ['creditData', movieId],
     queryFn: async () => {
-      const res = await fetchCreditData({ movieId: 912649 });
+      const res = await fetchCreditData({ movieId: movieId });
+      return res;
+    },
+  });
+
+  // 영화 리뷰 데이터
+  const {
+    data: reviewData,
+    isLoading: reviewIsLoading,
+    isError: reviewIsError,
+  } = useQuery({
+    queryKey: ['reviewData', movieId],
+    queryFn: async () => {
+      const res = await fetchReviewData({ movieId: movieId, language: null });
+      return res;
+    },
+  });
+
+  // 영화 예고편 데이터
+  const {
+    data: trailerData,
+    isLoading: trailerIsLoading,
+    isError: trailerIsError,
+  } = useQuery({
+    queryKey: ['trailerData', movieId],
+    queryFn: async () => {
+      const res = await fetchTrailerData({
+        movieId: movieId,
+      });
       console.log(res);
+      if (res.results.length < 1) {
+        return false;
+      }
+      return res.results[0];
+    },
+  });
+
+  // 영화 관련작품 데이터
+  const {
+    data: recommendationData,
+    isLoading: recommendationIsLoading,
+    isError: recommendationIsError,
+  } = useQuery({
+    queryKey: ['recommendationData', movieId],
+    queryFn: async () => {
+      const res = await fetchRecommendationData({ movieId: movieId });
       return res;
     },
   });
@@ -58,12 +108,11 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     isLoading: seriesIsLoading,
     isError: seriesIsError,
   } = useQuery({
-    queryKey: ['seriesData'],
+    queryKey: ['seriesData', movieId],
     queryFn: async () => {
       const res = await fetchSeriesData({
         collectionId: movieData.belongs_to_collection.id,
       });
-      console.log(res);
       return res;
     },
   });
@@ -74,12 +123,17 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     isLoading: ageIsLoading,
     isError: ageIsError,
   } = useQuery({
-    queryKey: ['ageData'],
+    queryKey: ['ageData', movieId],
     queryFn: async () => {
-      const res = await fetchCertificationData({ movieId: 912649 });
+      const res = await fetchCertificationData({ movieId: movieId });
       const krData = res.results.find((key: { iso_3166_1: string }) => {
-        return key.iso_3166_1 === 'KR';
+        if (key.iso_3166_1 === 'KR') {
+          return key.iso_3166_1 === 'KR';
+        } else {
+          return key.iso_3166_1 === 'US';
+        }
       });
+      console.log(krData);
       return krData.release_dates[0];
     },
   });
@@ -87,19 +141,37 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   const movieYear = new Date(movieData?.release_date).getFullYear(); // 영화 개봉년도
 
   useEffect(() => {
-    setTabIsActive(0);
+    setTimeout(() => {
+      setTabIsActive(0);
+    }, 500);
   }, [isOpacity]);
 
-  if (movieIsLoading || ageIsLoading || seriesIsLoading || creditIsLoading) {
+  if (
+    movieIsLoading ||
+    ageIsLoading ||
+    seriesIsLoading ||
+    creditIsLoading ||
+    reviewIsLoading ||
+    recommendationIsLoading ||
+    trailerIsLoading
+  ) {
     return <div>로딩중...</div>;
   }
 
-  if (movieIsError || ageIsError || seriesIsError || creditIsError) {
+  if (
+    movieIsError ||
+    ageIsError ||
+    seriesIsError ||
+    creditIsError ||
+    reviewIsError ||
+    recommendationIsError ||
+    trailerIsError
+  ) {
     return <div>에러...</div>;
   }
 
   return (
-    <div className="bg-[#000000 relative mx-auto w-full max-w-[1080px] overflow-y-auto">
+    <div className="relative mx-auto w-full max-w-[1080px] bg-[#000000]">
       <div
         className="mb-20 animate-zoomBg bg-cover bg-center bg-no-repeat px-20 pt-7"
         style={{
@@ -128,7 +200,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           </h3>
           <ul className="flex items-center gap-2">
             <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
-              시리즈 {seriesData.parts.length}개
+              시리즈 {seriesData?.parts.length}개
             </li>
             <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
               {ageData.certification}세
@@ -150,9 +222,16 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
             </p>
             <button
               type="button"
-              className="h-12 max-w-64 basis-[30%] rounded-xl bg-[#2D73F3] text-xl font-semibold text-white"
+              onClick={() => {
+                router.push({
+                  pathname: '/trailerPage',
+                  query: { trailerKey: trailerData.key },
+                });
+              }}
+              className="h-12 max-w-64 basis-[30%] rounded-xl bg-[#2D73F3] text-xl font-semibold text-white disabled:bg-gray"
+              disabled={!trailerData}
             >
-              시청하기
+              {!trailerData ? '영상이 없습니다.' : '시청하기'}
             </button>
           </div>
         </div>
@@ -173,7 +252,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
                 }}
                 className={`relative px-4 text-base font-bold ${isActive}`}
               >
-                {tab} {index === 2 && '28+'}
+                {tab} {index === 2 && `${reviewData.total_results}+`}
               </button>
             );
           })}
@@ -182,13 +261,24 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
       {match(tabIsActive)
         .with(0, () => {
-          return <SeriesTab seriesData={seriesData} />;
+          return <SeriesTab seriesData={seriesData} setMovieId={setMovieId} />;
         })
         .with(1, () => {
-          return <RelatedWorksTab />;
+          return (
+            <RelatedWorksTab
+              recommendationData={recommendationData}
+              setMovieId={setMovieId}
+              setTabIsActive={setTabIsActive}
+            />
+          );
         })
         .with(2, () => {
-          return <UserReviewsTab />;
+          return (
+            <UserReviewsTab
+              reviewData={reviewData}
+              movieDataVote={movieData.vote_average}
+            />
+          );
         })
         .with(3, () => {
           return (
@@ -200,7 +290,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           );
         })
         .otherwise(() => {
-          return <SeriesTab seriesData={seriesData} />;
+          return <SeriesTab seriesData={seriesData} setMovieId={setMovieId} />;
         })}
     </div>
   );

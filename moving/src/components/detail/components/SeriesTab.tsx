@@ -1,14 +1,18 @@
+import { useModalStore } from '@/lib/store/modalStore';
 import { SeriesData } from '@/types/detail/type';
 import Image from 'next/image';
 
 interface SeriesTabProps {
   seriesData: SeriesData;
+  setMovieId: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function SeriesTab({ seriesData }: SeriesTabProps) {
+export default function SeriesTab({ seriesData, setMovieId }: SeriesTabProps) {
+  const { setScrollTop } = useModalStore();
+
   return (
     <div className="px-20 pb-10 text-white">
-      {seriesData.parts
+      {seriesData?.parts
         .sort(
           (a, b) =>
             new Date(a.release_date).getTime() -
@@ -24,7 +28,13 @@ export default function SeriesTab({ seriesData }: SeriesTabProps) {
               key={part.id}
               className="relative mb-12 flex w-[100%] gap-4 border-b-2 border-[#2D313A] pb-12"
             >
-              <div className="flex-shrink-0">
+              <div
+                className="flex-shrink-0 cursor-pointer"
+                onClick={() => {
+                  setMovieId(part.id);
+                  setScrollTop();
+                }}
+              >
                 <Image
                   src={posterImage}
                   width={130}
