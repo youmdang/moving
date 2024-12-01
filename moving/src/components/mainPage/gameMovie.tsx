@@ -28,7 +28,7 @@ export default function GameMovie() {
   }
 
   if (isError) {
-    return <div> 네트워크 에러</div>;
+    return <div> 네트워크 에러2</div>;
   }
 
   return (

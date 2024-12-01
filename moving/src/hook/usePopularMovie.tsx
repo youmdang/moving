@@ -1,10 +1,10 @@
-import { fetchSeries } from '@/api/mainpageAPI';
+import { fetchPopular } from '@/api/mainpageAPI';
 import { defaultMoviePageType } from '@/types/mainPage/defaultMovie';
 import { useQuery } from '@tanstack/react-query';
 
-export const useSeriesMovie = () => {
+export const usePopularMovie = () => {
   return useQuery<defaultMoviePageType>({
-    queryKey: ['seriesMovie'],
-    queryFn: fetchSeries,
+    queryKey: ['popularMovie'],
+    queryFn: fetchPopular,
   });
 };
