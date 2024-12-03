@@ -4,7 +4,16 @@ export default function TrailerPage() {
   const router = useRouter();
   const { trailerKey } = router.query;
   return (
-    <div className="h-screen w-screen">
+    <div className="relative h-screen w-screen">
+      <button
+        type="button"
+        className="absolute left-6 top-6 z-50 text-4xl"
+        onClick={() => {
+          router.back();
+        }}
+      >
+        〈
+      </button>
       <iframe
         width="100%"
         height="100%"

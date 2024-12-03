@@ -1,3 +1,5 @@
+import { useModal } from '@/lib/hook/useModal';
+import { useModalAnimateStore } from '@/lib/store/modalAnimateStore';
 import { useModalStore } from '@/lib/store/modalStore';
 import { movieImage } from '@/lib/utils/movieImage';
 import { RelatedWork } from '@/types/detail/type';
@@ -5,16 +7,17 @@ import Image from 'next/image';
 
 interface RelatedWorksTabProps {
   recommendationData: RelatedWork;
-  setMovieId: React.Dispatch<React.SetStateAction<number>>;
   setTabIsActive: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function RelatedWorksTab({
   recommendationData,
-  setMovieId,
   setTabIsActive,
 }: RelatedWorksTabProps) {
   const { setScrollTop } = useModalStore();
+  const { handleModalChange } = useModal();
+  const { resetModalAnimate } = useModalAnimateStore();
+
   return (
     <div className="grid grid-cols-[repeat(6,1fr)] gap-x-6 gap-y-9 px-20 pb-10 text-white">
       {recommendationData.results.map((result) => {
@@ -24,7 +27,8 @@ export default function RelatedWorksTab({
             <div
               className="mb-2 flex-shrink-0 cursor-pointer"
               onClick={() => {
-                setMovieId(result.id);
+                handleModalChange(result.id);
+                resetModalAnimate();
                 setTabIsActive(0);
                 setScrollTop();
               }}
