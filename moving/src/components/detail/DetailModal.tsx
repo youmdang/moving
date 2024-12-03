@@ -17,6 +17,9 @@ import {
   fetchSeriesData,
   fetchTrailerData,
 } from '@/lib/apis/modal/api';
+import TrailerTab from './components/TrailerTab';
+import clsx from 'clsx';
+import { useModalAnimateStore } from '@/lib/store/modalAnimateStore';
 import { useRouter } from 'next/router';
 
 interface DetailModalProps {
@@ -25,9 +28,16 @@ interface DetailModalProps {
 
 export default function DetailModal({ isOpacity }: DetailModalProps) {
   const reviewFavoriteClass = 'flex items-center gap-2 text-xs text-white';
-  const MOVIE_TAB_LIST = ['시리즈', '연관작품', '사용자 평', '상세정보'];
+  const MOVIE_TAB_LIST = [
+    '시리즈',
+    '연관작품',
+    '사용자 평',
+    '상세정보',
+    '예고편',
+  ];
   const [tabIsActive, setTabIsActive] = useState(0);
   const [movieId, setMovieId] = useState<number>(1159311);
+  const { modalAnimate, resetModalAnimate } = useModalAnimateStore();
   const router = useRouter();
 
   // 영화 데이터
@@ -140,11 +150,19 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
   const movieYear = new Date(movieData?.release_date).getFullYear(); // 영화 개봉년도
 
+  // const resetModalAnimation = () => {
+  //   setModalAnimate(false);
+  // };
+
   useEffect(() => {
     setTimeout(() => {
       setTabIsActive(0);
     }, 500);
   }, [isOpacity]);
+
+  // useEffect(() => {
+  //   setModalAnimate(true);
+  // }, [modalAnimate]);
 
   if (
     movieIsLoading ||
@@ -173,7 +191,10 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   return (
     <div className="relative mx-auto w-full max-w-[1080px] bg-[#000000]">
       <div
-        className="mb-20 animate-zoomBg bg-cover bg-center bg-no-repeat px-20 pt-7"
+        className={clsx(
+          'mb-20 bg-cover bg-center bg-no-repeat px-20 pt-7',
+          modalAnimate && 'animate-zoomBg'
+        )}
         style={{
           backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url(${process.env.NEXT_PUBLIC_BACK_IMAGE_URL}${movieData.backdrop_path})`,
         }}
@@ -288,6 +309,9 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
               creditData={creditData}
             />
           );
+        })
+        .with(4, () => {
+          return <TrailerTab trailerKey={trailerData.key} />;
         })
         .otherwise(() => {
           return <SeriesTab seriesData={seriesData} setMovieId={setMovieId} />;
