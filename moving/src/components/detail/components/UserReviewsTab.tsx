@@ -57,57 +57,62 @@ export default function UserReviewsTab({
         />
       </div>
 
-      <div className="mb-12 flex items-center justify-between">
-        <span>리뷰 ({reviewData.total_results})</span>
-      </div>
-
-      {reviewData.results.map((result) => {
-        const profileImage = movieImage(result.author_details.avatar_path);
-        const reviewStar = Math.floor(result.author_details.rating / 2);
-        return (
-          <div
-            key={result.id}
-            className="mb-10 border-b-2 border-[#2D313A] pb-10"
-          >
-            <div className="mb-4 flex justify-between">
-              <div>
-                <div className="mb-3 flex items-center gap-2 text-sm font-normal">
-                  <Image
-                    src={profileImage}
-                    width={33}
-                    height={33}
-                    className="h-[33px] w-[33px] rounded-full"
-                    alt="프로필 이미지"
-                  />
-                  {result.author_details.username}
-                </div>
-                <div className="mb-3 flex items-center gap-1">
-                  {Array.from({ length: MAX_STAR }, (_, index) => {
-                    return (
-                      <span key={index}>
-                        <Image
-                          src={
-                            index > reviewStar - 1
-                              ? 'icons/starOutIcon.svg'
-                              : 'icons/starOnIcon.svg'
-                          }
-                          width={28}
-                          height={28}
-                          alt="별점 아이콘"
-                        />
-                      </span>
-                    );
-                  })}
-                </div>
-                <span className="text-xs font-normal text-[#77777777]">
-                  1개월 전
-                </span>
-              </div>
-            </div>
-            <p className="text-base font-normal">{result.content}</p>
+      {reviewData.results.length > 0 ? (
+        <>
+          <div className="mb-12 flex items-center justify-between">
+            <span>리뷰 ({reviewData.total_results})</span>
           </div>
-        );
-      })}
+          {reviewData.results.map((result) => {
+            const profileImage = movieImage(result.author_details.avatar_path);
+            const reviewStar = Math.floor(result.author_details.rating / 2);
+            return (
+              <div
+                key={result.id}
+                className="mb-10 border-b-2 border-[#2D313A] pb-10"
+              >
+                <div className="mb-4 flex justify-between">
+                  <div>
+                    <div className="mb-3 flex items-center gap-2 text-sm font-normal">
+                      <Image
+                        src={profileImage}
+                        width={33}
+                        height={33}
+                        className="h-[33px] w-[33px] rounded-full"
+                        alt="프로필 이미지"
+                      />
+                      {result.author_details.username}
+                    </div>
+                    <div className="mb-3 flex items-center gap-1">
+                      {Array.from({ length: MAX_STAR }, (_, index) => {
+                        return (
+                          <span key={index}>
+                            <Image
+                              src={
+                                index > reviewStar - 1
+                                  ? 'icons/starOutIcon.svg'
+                                  : 'icons/starOnIcon.svg'
+                              }
+                              width={28}
+                              height={28}
+                              alt="별점 아이콘"
+                            />
+                          </span>
+                        );
+                      })}
+                    </div>
+                    <span className="text-xs font-normal text-[#77777777]">
+                      1개월 전
+                    </span>
+                  </div>
+                </div>
+                <p className="text-base font-normal">{result.content}</p>
+              </div>
+            );
+          })}
+        </>
+      ) : (
+        <div className="text-center">작성된 리뷰가 없습니다.</div>
+      )}
     </div>
   );
 }

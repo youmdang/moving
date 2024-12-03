@@ -59,17 +59,11 @@ export const fetchCreditData = async ({
 // 리뷰 데이터 가져오기
 export const fetchReviewData = async ({
   movieId = 912649,
-  language = 'ko-KR',
 }: {
   movieId: number;
-  language: string | null;
 }) => {
   try {
-    const response = await axiosInstance.get(`movie/${movieId}/reviews`, {
-      params: {
-        language,
-      },
-    });
+    const response = await axiosInstance.get(`movie/${movieId}/reviews`);
     return response.data;
   } catch (error) {
     console.log('리뷰 데이터 오류', error);
