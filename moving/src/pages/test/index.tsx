@@ -19,7 +19,6 @@ export default function ModalPage() {
     <>
       <button
         type="button"
-        id="912649"
         className="relative z-50"
         onClick={() => {
           handleModalOpen(1159311);
@@ -32,7 +31,7 @@ export default function ModalPage() {
         isOpacity={isOpacity}
         handleModalClose={handleModalClose}
       >
-        <DetailModal isOpacity={isOpacity} />
+        {isOpenModal && <DetailModal isOpacity={isOpacity} />}
       </ModalFrame>
     </>
   );

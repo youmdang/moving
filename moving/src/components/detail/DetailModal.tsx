@@ -28,8 +28,10 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   ];
   const router = useRouter();
   const { movieNumber } = router.query;
-  const [tabIsActive, setTabIsActive] = useState(0);
+  console.log(movieNumber);
   const { modalAnimate, modalAnimateActive } = useModalAnimateStore();
+  const [movieId, setMovieId] = useState<number | null>(null);
+  const [tabIsActive, setTabIsActive] = useState(0);
   const {
     movieQuery,
     creditQuery,
@@ -42,6 +44,12 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
   // 영화 개봉년도
   const movieYear = new Date(movieQuery.data?.release_date).getFullYear();
+
+  useEffect(() => {
+    if (movieNumber) {
+      setMovieId(Number(movieNumber)); // movieNumber가 정의되었을 때만 변환
+    }
+  }, [movieNumber]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -60,7 +68,8 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     creditQuery.isLoading ||
     reviewQuery.isLoading ||
     recommendationQuery.isLoading ||
-    trailerQuery.isLoading
+    trailerQuery.isLoading ||
+    !movieNumber
   ) {
     return <div>로딩중...</div>;
   }
@@ -116,7 +125,9 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
             )}
 
             <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
-              {ageQuery.data.certification}세
+              {ageQuery.data?.certification === 'ALL'
+                ? ageQuery.data?.certification
+                : ageQuery.data?.certification + '세'}
             </li>
             {movieQuery.data.genres.map(
               (genre: { id: number; name: string }) => {
