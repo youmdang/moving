@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
-import { useGameMovie } from '@/hook/useGameMovie';
+import { useGameMovie } from '@/hook/mainpage/useGameMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';

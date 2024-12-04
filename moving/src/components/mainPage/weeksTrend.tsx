@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
-import { useWeekTrend } from '@/hook/useWeekTrend';
+import { useWeekTrend } from '@/hook/mainpage/useWeekTrend';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useGenreStore } from '../../../store/useGenreStore';

@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import RightArrow from '@/icons/right-arrow-white.svg';
 import EyesIcon from '@/icons/eyesIcon.svg';
-import { usePopularMovie } from '@/hook/usePopularMovie';
+import { usePopularMovie } from '@/hook/mainpage/usePopularMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 
 export default function PopularMovies() {

@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
-import { useSeriesMovie } from '@/hook/useSeriesMovie';
+import { useSeriesMovie } from '@/hook/mainpage/useSeriesMovie';
 import { useGenreStore } from '../../../store/useGenreStore';
 import { useEffect } from 'react';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';

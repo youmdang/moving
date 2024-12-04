@@ -1,5 +1,5 @@
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
-import { useUpcomingMovie } from '@/hook/useUpcomingMovie';
+import { useUpcomingMovie } from '@/hook/mainpage/useUpcomingMovie';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 

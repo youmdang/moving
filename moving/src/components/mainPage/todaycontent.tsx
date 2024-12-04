@@ -2,7 +2,7 @@ import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
 import { useGenreStore } from '../../../store/useGenreStore';
 import { useEffect } from 'react';
-import { useTodayMovie } from '@/hook/useTodayMovie';
+import { useTodayMovie } from '@/hook/mainpage/useTodayMovie';
 import dayjs from 'dayjs';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 
