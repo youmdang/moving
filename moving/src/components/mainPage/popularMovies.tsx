@@ -1,8 +1,9 @@
 import Image from 'next/image';
 import RightArrow from '@/icons/right-arrow-white.svg';
 import EyesIcon from '@/icons/eyesIcon.svg';
-import { usePopularMovie } from '@/hook/usePopularMovie';
+import { usePopularMovie } from '@/hook/mainpage/usePopularMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
+import { motion } from 'framer-motion';
 
 export default function PopularMovies() {
   const { data, isLoading, isError } = usePopularMovie();
@@ -20,11 +21,12 @@ export default function PopularMovies() {
   return (
     <section className="ml-[8.5vw] mt-[72px] flex flex-col overflow-hidden">
       <h2 className="mb-12 text-2xl font-bold">🏆 인기 영화 TOP 10</h2>
-      <ul className="relative flex gap-[2vw] ">
+      <ul className="relative flex gap-[2vw]">
         {limited?.map((poster, index) => (
-          <li
+          <motion.li
+            whileHover={{ scale: 1.1 }}
             key={poster.id}
-            className="relative h-[10.4vw] w-[18.7vw] shrink-0 overflow-visible "
+            className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer hover:z-10 hover:overflow-visible"
           >
             <Image
               src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}
@@ -54,7 +56,7 @@ export default function PopularMovies() {
                 </div>
               </div>
             </div>
-          </li>
+          </motion.li>
         ))}
         <div className="absolute right-0 top-[50%] flex h-full w-[45px] -translate-y-[50%] cursor-pointer items-center justify-center bg-black opacity-25 hover:opacity-80">
           <RightArrow />

@@ -5,9 +5,16 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
+import { useDropdown } from '@/hook/navBar/useDropdown';
+import { useGenreStore } from '../../../store/useGenreStore';
 
 export default function Navbar() {
-  const [isOpensDropDown, setIsOpenDropDown] = useState(false);
+  const {
+    isOpen: isOpensDropDown,
+    toggleDropdown,
+    dropdownRef,
+  } = useDropdown();
+  const { genres, fetchGenres } = useGenreStore();
   const [isTransparent, setIsTransparent] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -23,12 +30,12 @@ export default function Navbar() {
     };
   }, []);
 
+  useEffect(() => {
+    fetchGenres();
+  }, [fetchGenres]);
+
   const handleFocus = () => {
     inputRef.current?.focus();
-  };
-
-  const handleDropdown = () => {
-    setIsOpenDropDown(!isOpensDropDown);
   };
 
   const handleLogo = () => {
@@ -52,24 +59,31 @@ export default function Navbar() {
         <div className="flex items-center">
           <button
             type="button"
-            onClick={handleDropdown}
+            onClick={toggleDropdown}
             className=" relative mr-10 flex items-center"
           >
             <span className=" mr-4 text-white">장르</span>
             <DropdownIcon />
             <div
+              ref={dropdownRef}
               className={clsx(
-                'absolute top-[35px] flex h-auto w-40 flex-col rounded-xl bg-[#121212]',
+                'dropdown-scroll absolute top-[35px] flex h-[294px] w-[116px] flex-col overflow-auto rounded-xl bg-[#3a3a3a] p-[6px]',
                 {
                   hidden: isOpensDropDown === false,
                   block: isOpensDropDown === true,
                 }
               )}
             >
-              <span className="block rounded-lg p-2 hover:bg-gray">액션</span>
-              <span className="block rounded-lg p-2 hover:bg-gray">로멘스</span>
-              <span className="block rounded-lg p-2 hover:bg-gray">SF</span>
-              <span className="block rounded-lg p-2 hover:bg-gray">판타지</span>
+              <ul className="">
+                {Object.entries(genres).map(([id, name]) => (
+                  <li
+                    key={id}
+                    className="block rounded-lg p-2 hover:bg-[#5c5a5d]"
+                  >
+                    {name}
+                  </li>
+                ))}
+              </ul>
             </div>
           </button>
           <div className="flex h-9 w-[360px] items-center justify-between rounded-lg bg-[#404040] px-4 opacity-50">

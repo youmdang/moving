@@ -61,7 +61,7 @@ export default function mainPage() {
               점심시간 12:00~13:00 / 주말 및 공휴일 휴무)
             </p>
             <p>
-              인천광역시 미추홀구 용현 5동 전자우편주소 : mangoj425@Gmail.c om
+              인천광역시 미추홀구 용현 5동 전자우편주소 : mangoj425@gmail.com
             </p>
             <p>Copyright© 컨텐츠무빙(주) All rights reserved.</p>
           </div>

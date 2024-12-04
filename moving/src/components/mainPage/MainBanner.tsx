@@ -4,12 +4,13 @@ import RightArrow from '@/icons/right-arrow-Icon.svg';
 import {
   useDirector,
   useRecommendationMovie,
-} from '@/hook/useRecommendationMovie';
+} from '@/hook/mainpage/useRecommendationMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import { CrewMember } from '@/types/mainPage/mainbanner';
-import { useVideos } from '@/hook/useVideos';
+import { useVideos } from '@/hook/mainpage/useVideos';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { motion } from 'framer-motion';
 
 export default function MainBanner() {
   const { data: bannerImage, isLoading, isError } = useRecommendationMovie();
@@ -100,26 +101,29 @@ export default function MainBanner() {
             <button
               onClick={handlePrev}
               type="button"
-              className="absolute left-[-25px] top-[50%] flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full bg-white"
+              className="absolute left-[-25px] top-[50%] z-10 flex h-[50px] w-[50px] -translate-y-1/2 transform items-center justify-center rounded-full bg-white"
             >
               <LeftArrow />
             </button>
             {currentGroup?.map((poster, index) => (
-              <li onClick={() => handleMovieClick(index)}>
+              <motion.li
+                whileHover={{ scale: 1.1 }}
+                onClick={() => handleMovieClick(index)}
+                className="relative h-[10vw] w-[19vw]"
+              >
                 <Image
                   key={poster.id}
                   src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}
-                  width={358}
-                  height={190}
+                  layout="fill"
                   alt="가로 이미지"
                   className={clsx(
-                    'h-auto max-w-[358px] cursor-pointer rounded-2xl',
+                    'h-auto max-w-[358px] cursor-pointer rounded-2xl p-[0.4px]',
                     {
                       ' border-4 border-[#f29b2e]': index === currentMovieIndex,
                     }
                   )}
                 />
-              </li>
+              </motion.li>
             ))}
 
             <button
