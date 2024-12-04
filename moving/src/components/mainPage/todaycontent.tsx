@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useTodayMovie } from '@/hook/mainpage/useTodayMovie';
 import dayjs from 'dayjs';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
+import { motion } from 'framer-motion';
 
 export default function TodayContent() {
   const { genres, fetchGenres } = useGenreStore();
@@ -36,7 +37,11 @@ export default function TodayContent() {
       <h2 className="mb-7 text-2xl font-bold">오늘은 이 컨텐츠 어때요?</h2>
       <ul className="flex justify-between">
         {limitedData?.map((poster) => (
-          <li key={poster.id} className="h-auto max-w-[11vw] ">
+          <motion.li
+            whileHover={{ scale: 1.1 }}
+            key={poster.id}
+            className="h-auto max-w-[11vw] cursor-pointer "
+          >
             <div className="relative h-[14.5vw] w-[10.53vw] ">
               <Image
                 src={`${BASE_IMAGE_URL}${poster.poster_path}`}
@@ -64,7 +69,7 @@ export default function TodayContent() {
                 {getGenreNames(poster.genre_ids).join(', ')}
               </span>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </section>
