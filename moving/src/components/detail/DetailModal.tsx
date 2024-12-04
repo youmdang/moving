@@ -30,7 +30,6 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   const { movieNumber } = router.query;
   console.log(movieNumber);
   const { modalAnimate, modalAnimateActive } = useModalAnimateStore();
-  const [movieId, setMovieId] = useState<number | null>(null);
   const [tabIsActive, setTabIsActive] = useState(0);
   const {
     movieQuery,
@@ -44,12 +43,6 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
   // 영화 개봉년도
   const movieYear = new Date(movieQuery.data?.release_date).getFullYear();
-
-  useEffect(() => {
-    if (movieNumber) {
-      setMovieId(Number(movieNumber)); // movieNumber가 정의되었을 때만 변환
-    }
-  }, [movieNumber]);
 
   useEffect(() => {
     setTimeout(() => {
