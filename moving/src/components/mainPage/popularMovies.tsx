@@ -24,9 +24,9 @@ export default function PopularMovies() {
       <ul className="relative flex gap-[2vw]">
         {limited?.map((poster, index) => (
           <motion.li
-            whileHover={{ scale: 1.1 }}
+            whileHover={{ scale: 0.9 }}
             key={poster.id}
-            className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer hover:z-10 hover:overflow-visible"
+            className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer "
           >
             <Image
               src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}

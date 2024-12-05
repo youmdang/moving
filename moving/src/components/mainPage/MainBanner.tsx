@@ -107,7 +107,7 @@ export default function MainBanner() {
             </button>
             {currentGroup?.map((poster, index) => (
               <motion.li
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 0.9 }}
                 onClick={() => handleMovieClick(index)}
                 className="relative h-[10vw] w-[19vw]"
               >
