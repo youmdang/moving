@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
-import { useSeriesMovie } from '@/hook/useSeriesMovie';
+import { useSeriesMovie } from '@/hook/mainpage/useSeriesMovie';
 import { useGenreStore } from '../../../store/useGenreStore';
 import { useEffect } from 'react';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import dayjs from 'dayjs';
+import { motion } from 'framer-motion';
 
 export default function Series() {
   const { genres, fetchGenres } = useGenreStore();
@@ -36,7 +37,11 @@ export default function Series() {
       <h2 className="mb-7 text-2xl font-bold">🎬 명작 시리즈를 한번에</h2>
       <ul className="flex justify-between">
         {limitedData?.map((poster) => (
-          <li key={poster.id} className="h-auto max-w-[11vw] ">
+          <motion.li
+            whileHover={{ scale: 1.1 }}
+            key={poster.id}
+            className="h-auto max-w-[11vw] cursor-pointer "
+          >
             <div className="relative h-[14.5vw] w-[10.53vw] ">
               <Image
                 src={`${BASE_IMAGE_URL}${poster.poster_path}`}
@@ -64,7 +69,7 @@ export default function Series() {
                 {getGenreNames(poster.genre_ids).join(', ')}
               </span>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </section>

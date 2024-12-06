@@ -2,9 +2,10 @@ import Image from 'next/image';
 import RightArrow from '@/icons/right-arrow-white.svg';
 import LeftArrow from '@/icons/left-arrow-white.svg';
 import EyesIcon from '@/icons/eyesIcon.svg';
-import { usePopularMovie } from '@/hook/usePopularMovie';
+import { usePopularMovie } from '@/hook/mainpage/usePopularMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 
 export default function PopularMovies() {
   const { data, isLoading, isError } = usePopularMovie();
@@ -40,9 +41,10 @@ export default function PopularMovies() {
         }}
       >
         {limited?.map((poster, index) => (
-          <li
+          <motion.li
+            whileHover={{ scale: 0.9 }}
             key={poster.id}
-            className="relative h-[10.4vw] w-[18.7vw] shrink-0 overflow-visible "
+            className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer "
           >
             <Image
               src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}
@@ -72,7 +74,7 @@ export default function PopularMovies() {
                 </div>
               </div>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
       <div
