@@ -1,7 +1,8 @@
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
-import { useUpcomingMovie } from '@/hook/useUpcomingMovie';
+import { useUpcomingMovie } from '@/hook/mainpage/useUpcomingMovie';
 import dayjs from 'dayjs';
 import Image from 'next/image';
+import { motion } from 'framer-motion';
 
 export default function BeforeOpening() {
   const { data, isLoading, isError } = useUpcomingMovie();
@@ -21,7 +22,11 @@ export default function BeforeOpening() {
       <h2 className="mb-7 text-2xl font-bold">❓곧 공개되는 신작영화</h2>
       <ul className="flex justify-between">
         {limited?.map((poster) => (
-          <li key={poster.id} className="relative h-auto max-w-[14.53vw] ">
+          <motion.li
+            whileHover={{ scale: 1.1 }}
+            key={poster.id}
+            className="relative h-auto max-w-[14.53vw] cursor-pointer "
+          >
             <div className="relative h-[18.54vw] w-[14.53vw] ">
               <Image
                 src={`${BASE_IMAGE_URL}${poster.poster_path}`}
@@ -36,7 +41,7 @@ export default function BeforeOpening() {
                 {dayjs(poster.release_date).format('YYYY · MM')}
               </span>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </section>

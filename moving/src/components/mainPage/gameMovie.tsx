@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import StarIcon from '@/icons/starIcon.svg';
-import { useGameMovie } from '@/hook/useGameMovie';
+import { useGameMovie } from '@/hook/mainpage/useGameMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import dayjs from 'dayjs';
 import { useEffect } from 'react';
 import { useGenreStore } from '../../../store/useGenreStore';
+import { motion } from 'framer-motion';
 
 export default function GameMovie() {
   const { genres, fetchGenres } = useGenreStore();
@@ -38,7 +39,11 @@ export default function GameMovie() {
       </h2>
       <ul className="flex justify-between">
         {limitedData?.map((poster) => (
-          <li key={poster.id} className="h-auto max-w-[11vw] ">
+          <motion.li
+            whileHover={{ scale: 1.1 }}
+            key={poster.id}
+            className="h-auto max-w-[11vw] cursor-pointer "
+          >
             <div className="relative h-[14.5vw] w-[10.53vw] ">
               <Image
                 src={`${BASE_IMAGE_URL}${poster.poster_path}`}
@@ -66,7 +71,7 @@ export default function GameMovie() {
                 {getGenreNames(poster.genre_ids).join(', ')}
               </span>
             </div>
-          </li>
+          </motion.li>
         ))}
       </ul>
     </section>

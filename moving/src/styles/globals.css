@@ -43,3 +43,12 @@ body {
   background: #ffffff;
   border-radius: 10px;
 }
+
+.dropdown-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.dropdown-scroll::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 10px;
+}
