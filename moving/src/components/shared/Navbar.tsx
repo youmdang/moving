@@ -79,6 +79,7 @@ export default function Navbar() {
                   <li
                     key={id}
                     className="block rounded-lg p-2 hover:bg-[#5c5a5d]"
+                    value={name}
                   >
                     {name}
                   </li>
