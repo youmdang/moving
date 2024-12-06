@@ -1,12 +1,15 @@
 import Image from 'next/image';
 import RightArrow from '@/icons/right-arrow-white.svg';
+import LeftArrow from '@/icons/left-arrow-white.svg';
 import EyesIcon from '@/icons/eyesIcon.svg';
 import { usePopularMovie } from '@/hook/mainpage/usePopularMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 export default function PopularMovies() {
   const { data, isLoading, isError } = usePopularMovie();
+  const [startIndex, setStartIndex] = useState(0);
 
   if (isLoading) {
     return <div> 로딩중</div>;
@@ -16,12 +19,27 @@ export default function PopularMovies() {
     return <div> 네트워크 에러2</div>;
   }
 
-  const limited = data?.results.slice(0, 10);
+  const limited = data?.results.slice(0, 10) || [];
+
+  const handleNextSlide = () => {
+    // 슬라이드 인덱스를 증가 (최대값을 넘지 않도록 처리)
+    setStartIndex((prev) => Math.min(prev + 2, limited.length - 4));
+  };
+
+  const handlePrevSlide = () => {
+    // 왼쪽 버튼 클릭 시 슬라이드 인덱스를 감소 (최소값 제한)
+    setStartIndex((prev) => Math.max(prev - 2, 0));
+  };
 
   return (
-    <section className="ml-[8.5vw] mt-[72px] flex flex-col overflow-hidden">
+    <section className="relative ml-[8.5vw] mt-[72px] flex flex-col overflow-hidden">
       <h2 className="mb-12 text-2xl font-bold">🏆 인기 영화 TOP 10</h2>
-      <ul className="relative flex gap-[2vw]">
+      <ul
+        className="flex gap-[2vw] transition-transform duration-500"
+        style={{
+          transform: `translateX(-${startIndex * 20}vw)`, // 슬라이드 이동
+        }}
+      >
         {limited?.map((poster, index) => (
           <motion.li
             whileHover={{ scale: 0.9 }}
@@ -58,10 +76,28 @@ export default function PopularMovies() {
             </div>
           </motion.li>
         ))}
-        <div className="absolute right-0 top-[50%] flex h-full w-[45px] -translate-y-[50%] cursor-pointer items-center justify-center bg-black opacity-25 hover:opacity-80">
-          <RightArrow />
-        </div>
       </ul>
+      <div
+        onClick={handleNextSlide}
+        className={
+          startIndex === 6
+            ? 'hidden'
+            : 'absolute bottom-0 right-0 flex h-[10.4vw] w-[45px] cursor-pointer items-center justify-center rounded-2xl bg-black opacity-25 hover:opacity-80'
+        }
+      >
+        <RightArrow />
+      </div>
+
+      <div
+        onClick={handlePrevSlide}
+        className={
+          startIndex === 0
+            ? 'hidden'
+            : 'absolute bottom-0 left-0 flex h-[10.4vw] w-[45px] cursor-pointer items-center justify-center rounded-2xl bg-black opacity-25 hover:opacity-80'
+        }
+      >
+        <LeftArrow />
+      </div>
     </section>
   );
 }
