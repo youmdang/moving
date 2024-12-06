@@ -1,11 +1,7 @@
 import { axiosInstance } from '../instance/axiosInstance';
 
 // 영화 데이터 가져오기
-export const fetchMovieData = async ({
-  movieId = 912649,
-}: {
-  movieId: number;
-}) => {
+export const fetchMovieData = async ({ movieId }: { movieId: number }) => {
   try {
     const response = await axiosInstance.get(`movie/${movieId}`);
     return response.data;
@@ -16,7 +12,7 @@ export const fetchMovieData = async ({
 
 // 연령 제한 데이터 가져오기
 export const fetchCertificationData = async ({
-  movieId = 912649,
+  movieId,
 }: {
   movieId: number;
 }) => {
@@ -30,7 +26,7 @@ export const fetchCertificationData = async ({
 
 // 시리즈 데이터 가져오기
 export const fetchSeriesData = async ({
-  collectionId = 558216,
+  collectionId,
 }: {
   collectionId: number;
 }) => {
@@ -43,11 +39,7 @@ export const fetchSeriesData = async ({
 };
 
 // 출연진 데이터 가져오기
-export const fetchCreditData = async ({
-  movieId = 912649,
-}: {
-  movieId: number;
-}) => {
+export const fetchCreditData = async ({ movieId }: { movieId: number }) => {
   try {
     const response = await axiosInstance.get(`movie/${movieId}/credits`);
     return response.data;
@@ -57,19 +49,9 @@ export const fetchCreditData = async ({
 };
 
 // 리뷰 데이터 가져오기
-export const fetchReviewData = async ({
-  movieId = 912649,
-  language = 'ko-KR',
-}: {
-  movieId: number;
-  language: string | null;
-}) => {
+export const fetchReviewData = async ({ movieId }: { movieId: number }) => {
   try {
-    const response = await axiosInstance.get(`movie/${movieId}/reviews`, {
-      params: {
-        language,
-      },
-    });
+    const response = await axiosInstance.get(`movie/${movieId}/reviews`);
     return response.data;
   } catch (error) {
     console.log('리뷰 데이터 오류', error);
@@ -78,7 +60,7 @@ export const fetchReviewData = async ({
 
 // 관련작품 데이터 가져오기
 export const fetchRecommendationData = async ({
-  movieId = 912649,
+  movieId,
 }: {
   movieId: number;
 }) => {
@@ -93,11 +75,7 @@ export const fetchRecommendationData = async ({
 };
 
 // 예고편 데이터 가져오기
-export const fetchTrailerData = async ({
-  movieId = 1159311,
-}: {
-  movieId: number;
-}) => {
+export const fetchTrailerData = async ({ movieId }: { movieId: number }) => {
   try {
     const response = await axiosInstance.get(`movie/${movieId}/videos`);
     return response.data;
