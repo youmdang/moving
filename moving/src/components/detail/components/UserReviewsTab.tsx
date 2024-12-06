@@ -1,3 +1,4 @@
+import { useModalStore } from '@/lib/store/modalStore';
 import { movieImage } from '@/lib/utils/movieImage';
 import { Review, ReviewResultData } from '@/types/detail/type';
 import clsx from 'clsx';
@@ -20,6 +21,7 @@ export default function UserReviewsTab({
   const [pageReviewList, setPageReviewList] = useState<ReviewResultData[]>([]);
   const [sliceNumber, setSliceNumber] = useState(0);
   const [viewPage, setViewPage] = useState(1);
+  const { setScrollTop } = useModalStore();
 
   const movieReviewStar = (() => {
     const results = reviewData.results;
@@ -37,8 +39,13 @@ export default function UserReviewsTab({
   console.log(sliceNumber);
 
   const handleNextPage = () => {
+    if (viewPage === reviewData.total_results) {
+      setSliceNumber((prev) => prev);
+      setViewPage((prev) => prev);
+    }
     setSliceNumber((prev) => prev + 5);
     setViewPage((prev) => prev + 1);
+    setScrollTop();
   };
 
   const handlePrevPage = () => {
@@ -49,11 +56,13 @@ export default function UserReviewsTab({
 
     setSliceNumber((prev) => prev - 5);
     setViewPage((prev) => prev - 1);
+    setScrollTop();
   };
 
   const handleViewPage = (view: number) => {
     setSliceNumber(view * 5 - 5);
     setViewPage(view);
+    setScrollTop();
   };
 
   useEffect(() => {
