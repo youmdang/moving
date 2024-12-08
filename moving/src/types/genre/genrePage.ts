@@ -1,5 +1,5 @@
 export interface fetchGenreMovieProps {
   genre: string;
-  year: string;
-  page: string;
+  year: number;
+  page?: number;
 }

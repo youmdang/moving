@@ -3,7 +3,9 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useGenreMovies } from '@/hook/genre/useGenreMovies';
 import { useGenreStore } from '../../../store/useGenreStore';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import dayjs from 'dayjs';
+import { useInView } from 'react-intersection-observer';
 
 export default function genre() {
   const router = useRouter();
@@ -18,10 +20,6 @@ export default function genre() {
       await fetchGenres(); // 스토어의 fetchGenres 호출
     };
 
-    fetchData();
-  }, [fetchGenres]);
-
-  useEffect(() => {
     if (genre && genres) {
       // 장르 이름으로 ID 매핑
       const id = Object.entries(genres).find(
@@ -29,13 +27,25 @@ export default function genre() {
       )?.[0];
       if (id) setGenreId(id); // 장르 ID 설정
     }
-  }, [genre, genres]);
 
-  const { data } = useGenreMovies({
-    genre: genreId || '', // genreId를 사용 (없으면 빈 값)
-    year: '2024',
-    page: '1',
-  });
+    fetchData();
+  }, []);
+
+  const currentYear = dayjs().year();
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useGenreMovies({
+      genre: genreId || '', // genreId를 사용 (없으면 빈 값)
+      year: currentYear,
+    });
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <div className="pt-[76px]">
@@ -44,23 +54,26 @@ export default function genre() {
         <section className="mb-16">
           <hr className="mb-9 border-[1px] text-[#f3f3f3]" />
           <ul className="flex flex-wrap gap-[1.4vw]">
-            {data?.results.map((poster, index) => (
-              <li key={index}>
-                <div className="w-[7.9vw] truncate">
-                  <div className="relative h-[11vw] ">
-                    <Image
-                      src={`${BASE_IMAGE_URL}${poster.poster_path}`}
-                      layout="fill"
-                      alt="세로 포스터"
-                      className="rounded-2xl"
-                    />
+            {data?.pages.map((page) =>
+              page?.results.map((poster, index) => (
+                <li key={index}>
+                  <div className="w-[7.9vw] truncate">
+                    <div className="relative h-[11vw] ">
+                      <Image
+                        src={`${BASE_IMAGE_URL}${poster.poster_path}`}
+                        layout="fill"
+                        alt="세로 포스터"
+                        className="rounded-2xl"
+                      />
+                    </div>
+                    <span>{poster.title}</span>
                   </div>
-                  <span>{poster.title}</span>
-                </div>
-              </li>
-            ))}
+                </li>
+              ))
+            )}
           </ul>
         </section>
+        <span ref={ref}>더볼거얌</span>
       </div>
     </div>
   );
