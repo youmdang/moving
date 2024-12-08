@@ -3,9 +3,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useGenreMovies } from '@/hook/genre/useGenreMovies';
 import { useGenreStore } from '../../../store/useGenreStore';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useInView } from 'react-intersection-observer';
+import { motion } from 'framer-motion';
 
 export default function genre() {
   const router = useRouter();
@@ -73,7 +74,19 @@ export default function genre() {
             )}
           </ul>
         </section>
-        <span ref={ref}>더볼거얌</span>
+        <div className="flex items-center justify-center" ref={ref}>
+          <motion.div
+            animate={{
+              rotate: 360,
+            }}
+            transition={{
+              repeat: Infinity,
+              ease: 'linear',
+              duration: 1,
+            }}
+            className="border-t-blue-500 mb-10 h-6 w-6 rounded-full border-4 border-gray border-transparent border-t-[#ffffff]"
+          />
+        </div>
       </div>
     </div>
   );
