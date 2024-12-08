@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
+import clsx from 'clsx';
 
 export default function genre() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function genre() {
     }
 
     fetchData();
-  }, []);
+  }, [fetchGenres, genre, genres]);
 
   const currentYear = dayjs().year();
 
@@ -84,7 +85,11 @@ export default function genre() {
               ease: 'linear',
               duration: 1,
             }}
-            className="border-t-blue-500 mb-10 h-6 w-6 rounded-full border-4 border-gray border-transparent border-t-[#ffffff]"
+            className={clsx({
+              hidden: hasNextPage === false,
+              'border-t-blue-500 mb-10 h-6 w-6 rounded-full border-4 border-gray border-transparent border-t-[#ffffff]':
+                hasNextPage === true,
+            })}
           />
         </div>
       </div>
