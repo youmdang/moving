@@ -15,7 +15,7 @@ export default function RelatedWorks({ movieId }: fetchRelatedWorksProps) {
       <h2 className="mb-4">
         <span className="text-base font-bold">연관작품</span>
         <span className="ml-2 rounded-lg border-[1px] border-[#f2b42e] px-2 py-[3px] text-xs">
-          6+
+          16+
         </span>
       </h2>
       <hr className="mb-9 border-[1px] text-[#f3f3f3]" />

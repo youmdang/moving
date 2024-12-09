@@ -21,12 +21,17 @@ export default function SearchResult({
     }
   }, [data, onSearchMovieId]);
 
+  const totalResults = data?.pages.reduce(
+    (acc, page) => acc + (page?.results?.length || 0),
+    0
+  );
+
   return (
     <section className="mb-16">
       <h2 className="mb-4">
         <span className="text-base font-bold">검색결과</span>
         <span className="ml-2 rounded-lg border-[1px] border-[#f2b42e] px-2 py-[3px] text-xs">
-          6+
+          {`${totalResults}+`}
         </span>
       </h2>
       <hr className="mb-9 border-[1px] text-[#f3f3f3]" />
