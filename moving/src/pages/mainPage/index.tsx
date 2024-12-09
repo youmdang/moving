@@ -41,7 +41,7 @@ export default function mainPage() {
 
         <MainBanner handleModalOpen={handleModalOpen} />
 
-        <WeeksTrend />
+        <WeeksTrend handleModalOpen={handleModalOpen} />
 
         <GameMovie />
 
