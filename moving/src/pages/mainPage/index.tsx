@@ -45,7 +45,7 @@ export default function mainPage() {
 
         <GameMovie handleModalOpen={handleModalOpen} />
 
-        <BeforeOpening />
+        <BeforeOpening handleModalOpen={handleModalOpen} />
 
         <Series />
 
