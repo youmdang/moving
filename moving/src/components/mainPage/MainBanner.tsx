@@ -114,9 +114,7 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
                 whileHover={{ scale: 0.9 }}
                 onClick={() => {
                   handleMovieClick(index);
-                  if (handleModalOpen) {
-                    handleModalOpen(poster.id);
-                  }
+                  handleModalOpen?.(poster.id);
                 }}
                 className="relative h-[10vw] w-[19vw]"
               >

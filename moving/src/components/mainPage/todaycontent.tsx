@@ -43,9 +43,7 @@ export default function TodayContent({ handleModalOpen }: TodayContentProps) {
           <motion.li
             whileHover={{ scale: 1.1 }}
             onClick={() => {
-              if (handleModalOpen) {
-                handleModalOpen(poster.id);
-              }
+              handleModalOpen?.(poster.id);
             }}
             key={poster.id}
             className="h-auto max-w-[11vw] cursor-pointer "

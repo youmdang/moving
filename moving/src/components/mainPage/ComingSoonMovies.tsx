@@ -28,9 +28,7 @@ export default function BeforeOpening({ handleModalOpen }: BeforeOpeningProps) {
           <motion.li
             whileHover={{ scale: 1.1 }}
             onClick={() => {
-              if (handleModalOpen) {
-                handleModalOpen(poster.id);
-              }
+              handleModalOpen?.(poster.id);
             }}
             key={poster.id}
             className="relative h-auto max-w-[14.53vw] cursor-pointer "

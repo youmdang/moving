@@ -47,9 +47,7 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
           <motion.li
             whileHover={{ scale: 0.9 }}
             onClick={() => {
-              if (handleModalOpen) {
-                handleModalOpen(poster.id);
-              }
+              handleModalOpen?.(poster.id);
             }}
             key={poster.id}
             className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer "
