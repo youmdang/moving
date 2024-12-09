@@ -12,7 +12,11 @@ import { useState } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
-export default function MainBanner() {
+interface MainBannerProps {
+  handleModalOpen?: (id: number) => void;
+}
+
+export default function MainBanner({ handleModalOpen }: MainBannerProps) {
   const { data: bannerImage, isLoading, isError } = useRecommendationMovie();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
@@ -108,7 +112,12 @@ export default function MainBanner() {
             {currentGroup?.map((poster, index) => (
               <motion.li
                 whileHover={{ scale: 0.9 }}
-                onClick={() => handleMovieClick(index)}
+                onClick={() => {
+                  handleMovieClick(index);
+                  if (handleModalOpen) {
+                    handleModalOpen(poster.id);
+                  }
+                }}
                 className="relative h-[10vw] w-[19vw]"
               >
                 <Image
