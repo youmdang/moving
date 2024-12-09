@@ -47,7 +47,7 @@ export default function mainPage() {
 
         <BeforeOpening handleModalOpen={handleModalOpen} />
 
-        <Series />
+        <Series handleModalOpen={handleModalOpen} />
 
         <PopularMovies />
 
