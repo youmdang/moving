@@ -7,7 +7,11 @@ import { useEffect } from 'react';
 import { useGenreStore } from '../../../store/useGenreStore';
 import { motion } from 'framer-motion';
 
-export default function GameMovie() {
+interface GameMovieProps {
+  handleModalOpen?: (id: number) => void;
+}
+
+export default function GameMovie({ handleModalOpen }: GameMovieProps) {
   const { genres, fetchGenres } = useGenreStore();
   const { data, isLoading, isError } = useGameMovie();
 
@@ -41,6 +45,11 @@ export default function GameMovie() {
         {limitedData?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
+            onClick={() => {
+              if (handleModalOpen) {
+                handleModalOpen(poster.id);
+              }
+            }}
             key={poster.id}
             className="h-auto max-w-[11vw] cursor-pointer "
           >
