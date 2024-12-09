@@ -5,7 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 
 export const useSearch = ({ query }: fetchSearchMoviesProps) => {
   return useInfiniteQuery<defaultMoviePageType>({
-    queryKey: ['searchData'],
+    queryKey: ['searchData', query],
     queryFn: ({ pageParam = 1 }) =>
       fetchSearchMovies({ query, page: pageParam as number }),
     getNextPageParam: (lastPage) => {

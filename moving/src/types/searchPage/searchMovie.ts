@@ -1,4 +1,8 @@
 export interface fetchSearchMoviesProps {
-  query: string;
+  query: string | string[] | undefined;
   page: number;
+}
+
+export interface SearchResultProps {
+  query: string | string[] | undefined;
 }
