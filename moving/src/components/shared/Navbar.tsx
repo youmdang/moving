@@ -53,6 +53,10 @@ export default function Navbar() {
     }
   };
 
+  const handleGenreClick = (name: string) => {
+    router.push(`/genre/${name}`);
+  };
+
   return (
     <motion.div
       animate={{
@@ -91,6 +95,7 @@ export default function Navbar() {
                     key={id}
                     className="block rounded-lg p-2 hover:bg-[#5c5a5d]"
                     value={name}
+                    onClick={() => handleGenreClick(name)}
                   >
                     {name}
                   </li>

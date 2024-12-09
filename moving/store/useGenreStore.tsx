@@ -11,9 +11,11 @@ interface GenreStore {
   fetchGenres: () => Promise<void>; // 장르 데이터를 가져오는 비동기 함수
 }
 
-export const useGenreStore = create<GenreStore>((set) => ({
+export const useGenreStore = create<GenreStore>((set, get) => ({
   genres: {},
   fetchGenres: async () => {
+    if (Object.keys(get().genres).length > 0) return;
+
     const { data } = await authAxiosInstance.get<{ genres: Genre[] }>(
       'genre/movie/list?language=ko'
     );

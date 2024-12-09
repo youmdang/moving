@@ -4,10 +4,12 @@ import { SearchResultProps } from '@/types/searchPage/searchMovie';
 import Image from 'next/image';
 
 export default function SearchResult({ query }: SearchResultProps) {
-  const { data } = useSearch({
-    query: query,
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useSearch({
+    query: query || '',
     page: 1,
   });
+  console.log('Data:', data);
+  console.log('Has Next Page:', hasNextPage);
 
   return (
     <section className="mb-16">
@@ -38,6 +40,19 @@ export default function SearchResult({ query }: SearchResultProps) {
           ))
         )}
       </ul>
+
+      {hasNextPage && (
+        <div className="mt-3">
+          <button
+            type="button"
+            onClick={() => fetchNextPage()}
+            disabled={isFetchingNextPage}
+            className="rounded-full border-4  border-gray bg-blue px-3 py-2 text-sm font-bold"
+          >
+            {isFetchingNextPage ? 'Loading...' : '더보기'}
+          </button>
+        </div>
+      )}
     </section>
   );
 }
