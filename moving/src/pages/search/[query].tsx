@@ -21,16 +21,17 @@ export default function genre() {
           <ul className="flex flex-wrap gap-[1.4vw]">
             {posterData.map((poster, index) => (
               <li key={index}>
-                <div className="relative h-[11vw] w-[7.9vw]">
-                  <Image
-                    src={poster.src}
-                    layout="fill"
-                    alt="세로 포스터"
-                    className="rounded-2xl"
-                    quality={100}
-                  />
+                <div className="w-[7.9vw] truncate">
+                  <div className="relative h-[11vw]">
+                    <Image
+                      src={poster.src}
+                      layout="fill"
+                      alt="세로 포스터"
+                      className="rounded-2xl"
+                    />
+                  </div>
+                  <span>{poster.title}</span>
                 </div>
-                <span>{poster.title}</span>
               </li>
             ))}
           </ul>
@@ -46,16 +47,17 @@ export default function genre() {
           <ul className="flex flex-wrap gap-[1.4vw]">
             {posterData.map((poster, index) => (
               <li key={index}>
-                <div className="relative h-[11vw] w-[7.9vw]">
-                  <Image
-                    src={poster.src}
-                    layout="fill"
-                    alt="세로 포스터"
-                    className="rounded-2xl"
-                    quality={100}
-                  />
+                <div className="w-[7.9vw] truncate">
+                  <div className="relative h-[11vw]">
+                    <Image
+                      src={poster.src}
+                      layout="fill"
+                      alt="세로 포스터"
+                      className="rounded-2xl"
+                    />
+                  </div>
+                  <span>{poster.title}</span>
                 </div>
-                <span>{poster.title}</span>
               </li>
             ))}
           </ul>
