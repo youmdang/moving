@@ -21,7 +21,8 @@ export default function ModalPage() {
         type="button"
         className="relative z-50"
         onClick={() => {
-          handleModalOpen(1159311);
+          handleModalOpen(278);
+          // 1159311
         }}
       >
         모달 열기
