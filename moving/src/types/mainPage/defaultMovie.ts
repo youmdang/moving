@@ -19,6 +19,8 @@ export interface defaultMovieType {
 export interface defaultMoviePageType {
   page: number; // 페이지번호
   results: defaultMovieType[]; // 영화목록
+  total_pages: number;
+  total_results: number;
 }
 
 export interface fetchMovieIDProps {
