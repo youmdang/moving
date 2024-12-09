@@ -45,6 +45,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
   // 영화 개봉년도
   const movieYear = new Date(movieQuery.data?.release_date).getFullYear();
+  console.log(ageQuery.data);
 
   useEffect(() => {
     setTimeout(() => {
@@ -119,11 +120,14 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
               </li>
             )}
 
-            <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
-              {ageQuery.data?.certification === 'ALL'
-                ? ageQuery.data?.certification
-                : ageQuery.data?.certification + '세'}
-            </li>
+            {ageQuery.data.iso_639_1 && (
+              <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
+                {ageQuery.data?.certification === 'ALL'
+                  ? ageQuery.data?.certification
+                  : ageQuery.data?.certification + '세'}
+              </li>
+            )}
+
             {movieQuery.data.genres.map(
               (genre: { id: number; name: string }) => {
                 return (

@@ -13,8 +13,6 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
   const { setScrollTop } = useModalStore();
   const { handleModalChange } = useModal();
   const { resetModalAnimate } = useModalAnimateStore();
-  console.log(seriesData);
-  console.log(genreData);
 
   return (
     <div className="px-20 pb-10 text-white">
@@ -33,7 +31,7 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
             const genreResultList = genreData.genres.filter((genre: any) =>
               part.genre_ids.includes(genre.id)
             );
-            console.log(genreResultList);
+
             return (
               <div
                 key={part.id}
