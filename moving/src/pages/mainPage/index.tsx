@@ -53,7 +53,7 @@ export default function mainPage() {
 
         <Membership />
 
-        <TodayContent />
+        <TodayContent handleModalOpen={handleModalOpen} />
       </main>
 
       <footer className="mt-[108px] opacity-60">
