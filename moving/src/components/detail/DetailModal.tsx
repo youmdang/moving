@@ -40,6 +40,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     recommendationQuery,
     seriesQuery,
     ageQuery,
+    genreQuery,
   } = useModalData(Number(movieNumber), 'en-US');
 
   // 영화 개봉년도
@@ -181,7 +182,12 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
       {match(tabIsActive)
         .with(0, () => {
-          return <SeriesTab seriesData={seriesQuery.data} />;
+          return (
+            <SeriesTab
+              seriesData={seriesQuery.data}
+              genreData={genreQuery.data}
+            />
+          );
         })
         .with(1, () => {
           return (
@@ -213,7 +219,12 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           return <TrailerTab trailerKey={trailerQuery.data.key} />;
         })
         .otherwise(() => {
-          return <SeriesTab seriesData={seriesQuery.data} />;
+          return (
+            <SeriesTab
+              seriesData={seriesQuery.data}
+              genreData={genreQuery.data}
+            />
+          );
         })}
     </div>
   );

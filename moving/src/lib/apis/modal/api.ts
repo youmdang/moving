@@ -93,3 +93,16 @@ export const fetchTrailerData = async ({ movieId }: { movieId: number }) => {
     console.log('예고편 데이터 오류', error);
   }
 };
+
+export const fetchGenreData = async () => {
+  try {
+    const response = await axiosInstance.get('/genre/movie/list', {
+      params: {
+        language: 'ko',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log('영화 카테고리 데이터 오류', error);
+  }
+};
