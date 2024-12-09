@@ -1,6 +1,15 @@
-import { posterData } from '@/pages/search/mock';
+import { useRelatedWorks } from '@/hook/searchpage/useRelatedWorks';
+import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
+import { fetchRelatedWorksProps } from '@/types/searchPage/searchMovie';
 import Image from 'next/image';
-export default function RelatedWorks() {
+
+export default function RelatedWorks({ movieId }: fetchRelatedWorksProps) {
+  const { data } = useRelatedWorks({
+    movieId,
+  });
+
+  const limitedData = data?.results.slice(0, 16);
+
   return (
     <section className="mb-[143px]">
       <h2 className="mb-4">
@@ -11,18 +20,20 @@ export default function RelatedWorks() {
       </h2>
       <hr className="mb-9 border-[1px] text-[#f3f3f3]" />
       <ul className="flex flex-wrap gap-[1.4vw]">
-        {posterData.map((poster, index) => (
-          <li key={index}>
-            <div className="relative h-[11vw] w-[7.9vw]">
-              <Image
-                src={poster.src}
-                layout="fill"
-                alt="세로 포스터"
-                className="rounded-2xl"
-                quality={100}
-              />
+        {limitedData?.map((poster) => (
+          <li key={poster.id}>
+            <div className="w-[7.9vw] truncate">
+              <div className="relative h-[11vw] w-[7.9vw]">
+                <Image
+                  src={`${BASE_IMAGE_URL}${poster.poster_path}`}
+                  layout="fill"
+                  alt="세로 포스터"
+                  className="rounded-2xl"
+                  quality={100}
+                />
+              </div>
+              <span>{poster.title}</span>
             </div>
-            <span>{poster.title}</span>
           </li>
         ))}
       </ul>

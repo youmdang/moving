@@ -57,8 +57,8 @@ export default function genre() {
           <hr className="mb-9 border-[1px] text-[#f3f3f3]" />
           <ul className="flex flex-wrap gap-[1.4vw]">
             {data?.pages.map((page) =>
-              page?.results.map((poster, index) => (
-                <li key={index}>
+              page?.results.map((poster) => (
+                <li key={poster.id}>
                   <div className="w-[7.9vw] truncate">
                     <div className="relative h-[11vw] ">
                       <Image

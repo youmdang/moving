@@ -2,14 +2,24 @@ import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import { useSearch } from '@/hook/searchpage/usesearch';
 import { SearchResultProps } from '@/types/searchPage/searchMovie';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
-export default function SearchResult({ query }: SearchResultProps) {
+export default function SearchResult({
+  query,
+  onSearchMovieId,
+}: SearchResultProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } = useSearch({
     query: query || '',
     page: 1,
   });
   console.log('Data:', data);
   console.log('Has Next Page:', hasNextPage);
+
+  useEffect(() => {
+    if (data?.pages?.[0]?.results?.[0]?.id) {
+      onSearchMovieId(data.pages[0].results[0].id);
+    }
+  }, [data, onSearchMovieId]);
 
   return (
     <section className="mb-16">

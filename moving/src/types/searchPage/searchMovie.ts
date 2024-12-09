@@ -5,4 +5,9 @@ export interface fetchSearchMoviesProps {
 
 export interface SearchResultProps {
   query: string | string[] | undefined;
+  onSearchMovieId: (id: number) => void;
+}
+
+export interface fetchRelatedWorksProps {
+  movieId: number | null;
 }
