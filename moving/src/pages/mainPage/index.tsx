@@ -49,7 +49,7 @@ export default function mainPage() {
 
         <Series handleModalOpen={handleModalOpen} />
 
-        <PopularMovies />
+        <PopularMovies handleModalOpen={handleModalOpen} />
 
         <Membership />
 
