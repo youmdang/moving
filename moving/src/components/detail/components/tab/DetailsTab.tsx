@@ -19,7 +19,7 @@ export default function DetailsTab({
   const dateMonth = new Date(movieData.release_date).getMonth();
   const writing = creditData.crew.find((key: any) => key.job === 'Director');
   return (
-    <div className="px-20 pb-10 text-white">
+    <div className="px-5 pb-10 text-white lg:px-20">
       <div className="mb-10 border-b-[1px] border-[#2D313A] pb-10">
         <h2 className="text-2xl font-semibold">{movieData.title}</h2>
         <span className="mb-2 mt-4 block text-base font-medium">시놉시스</span>

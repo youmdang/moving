@@ -165,7 +165,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           </div>
         </div>
       </div>
-      <div className="sm:px-5 lg:px-20">
+      <div className="px-5 lg:px-20">
         <div className="mb-8 flex w-full items-center gap-2 border-b-2 border-white pb-4 sm:mb-12 sm:gap-4">
           {MOVIE_TAB_LIST.map((tab, index) => {
             const isActive =

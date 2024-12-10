@@ -15,7 +15,7 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
   const { resetModalAnimate } = useModalAnimateStore();
 
   return (
-    <div className="pb-10 text-white sm:px-5 lg:px-20">
+    <div className="px-5 pb-10 text-white lg:px-20">
       {seriesData?.parts?.length > 0 ? (
         seriesData.parts
           .sort(

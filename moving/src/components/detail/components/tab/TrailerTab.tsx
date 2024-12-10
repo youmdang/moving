@@ -8,7 +8,7 @@ export default function TrailerTab({ trailerKey }: TrailerTabProps) {
   return (
     <div
       className={clsx(
-        'flex w-full items-center justify-center pb-10 text-white sm:px-5 lg:px-20',
+        'flex w-full items-center justify-center px-5 pb-10 text-white lg:px-20',
         trailerKey
           ? 'h-[300px] sm:h-[400px] md:h-[500px]'
           : 'h-[150px] sm:h-[200px] md:h-[300px]'

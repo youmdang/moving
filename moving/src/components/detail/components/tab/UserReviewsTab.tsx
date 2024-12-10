@@ -65,7 +65,7 @@ export default function UserReviewsTab({
   }, [sliceNumber, sortText, sortedReviews]);
 
   return (
-    <div className="px-20 pb-10 text-white">
+    <div className="px-5 pb-10 text-white lg:px-20">
       <div className="mb-12 flex items-center justify-center gap-6">
         <Image
           src="/images/reviewBgLeft.png"
