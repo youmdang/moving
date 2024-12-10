@@ -15,9 +15,13 @@ import { useModalData } from '@/lib/hook/useModalData';
 
 interface DetailModalProps {
   isOpacity: boolean;
+  handleModalClose: () => void;
 }
 
-export default function DetailModal({ isOpacity }: DetailModalProps) {
+export default function DetailModal({
+  isOpacity,
+  handleModalClose,
+}: DetailModalProps) {
   const reviewFavoriteClass = 'flex items-center gap-2 text-xs text-white';
   const MOVIE_TAB_LIST = [
     '시리즈',
@@ -45,7 +49,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
 
   // 영화 개봉년도
   const movieYear = new Date(movieQuery.data?.release_date).getFullYear();
-  console.log(ageQuery.data);
+  console.log(movieQuery.data);
 
   useEffect(() => {
     setTimeout(() => {
@@ -83,19 +87,30 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   }
 
   return (
-    <div className="relative mx-auto w-full max-w-[1080px] bg-[#000000]">
+    <div className="relative mx-auto h-full w-full max-w-[1080px] bg-[#000000]">
       <div
         className={clsx(
-          'mb-10 bg-cover bg-center bg-no-repeat px-5 pt-7 md:mb-20 lg:px-20',
+          'mb-10 bg-cover bg-center bg-no-repeat px-3 pt-7 sm:px-5 md:mb-20 lg:px-20',
           modalAnimate && 'animate-zoomBg'
         )}
         style={{
           backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url(${process.env.NEXT_PUBLIC_BACK_IMAGE_URL}${movieQuery.data.backdrop_path})`,
         }}
       >
-        <h2 className="mb-52">
-          <Logo />
-        </h2>
+        <div className="mb-24 flex items-center justify-between sm:mb-40 md:mb-52">
+          <h2>
+            <Logo />
+          </h2>
+          <button
+            type="button"
+            className="text-lg font-bold sm:text-xl"
+            onClick={() => {
+              handleModalClose();
+            }}
+          >
+            ✕
+          </button>
+        </div>
         <div>
           <div className="mb-4 flex items-center gap-6">
             <div
@@ -124,7 +139,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
               </li>
             )}
 
-            {ageQuery.data.iso_639_1 && (
+            {ageQuery.data?.iso_639_1 && (
               <li className="flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 pt-[2px] text-xs font-normal text-white">
                 {ageQuery.data?.certification === 'ALL'
                   ? ageQuery.data?.certification
@@ -165,7 +180,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           </div>
         </div>
       </div>
-      <div className="px-5 lg:px-20">
+      <div className="px-3 sm:px-5 lg:px-20">
         <div className="mb-8 flex w-full items-center gap-2 border-b-2 border-white pb-4 sm:mb-12 sm:gap-4">
           {MOVIE_TAB_LIST.map((tab, index) => {
             const isActive =
@@ -179,7 +194,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
                 onClick={() => {
                   setTabIsActive(index);
                 }}
-                className={`relative px-1 text-sm font-bold sm:px-2 sm:text-base md:px-4 ${isActive}`}
+                className={`relative px-1 text-xs font-bold sm:px-2 sm:text-sm md:px-4 md:text-base ${isActive}`}
               >
                 {tab} {index === 2 && `${reviewQuery.data.total_results}+`}
               </button>

@@ -35,7 +35,7 @@ export default function ModalFrame({
       />
       <div
         ref={modalRef}
-        className={`modal-scroll h-[95vh] max-h-[1200px] w-[95vw] max-w-[1080px] overflow-y-auto rounded-xl opacity-0 ${isOpacity ? 'animate-modalFadeIn' : 'animate-modalFadeOut'}`}
+        className={`modal-scroll h-[95vh] max-h-[1200px] w-[95vw] max-w-[1080px] overflow-y-auto rounded-xl bg-[#000000] opacity-0 ${isOpacity ? 'animate-modalFadeIn' : 'animate-modalFadeOut'}`}
       >
         {children}
       </div>
