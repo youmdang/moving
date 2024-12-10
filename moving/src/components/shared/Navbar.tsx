@@ -2,7 +2,7 @@ import SearchICon from '@/icons/searchIcon.svg';
 import Logo from '@/images/Logo.svg';
 import DropdownIcon from '@/icons/dropdownIcon.svg';
 import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import { useDropdown } from '@/hook/navBar/useDropdown';
@@ -34,12 +34,23 @@ export default function Navbar() {
     fetchGenres();
   }, [fetchGenres]);
 
-  const handleFocus = () => {
-    inputRef.current?.focus();
-  };
-
   const handleLogo = () => {
     router.push('/');
+  };
+
+  const handleSearch = () => {
+    const query = inputRef.current?.value.trim();
+    if (!query) {
+      router.push('/mainPage');
+    } else {
+      router.push(`/search/${query}`);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
   };
 
   const handleGenreClick = (name: string) => {
@@ -98,9 +109,10 @@ export default function Navbar() {
               type="text"
               placeholder="영화 제목을 입력해 주세요."
               className="w-full bg-transparent focus:outline-none"
+              onKeyDown={handleKeyDown}
             />
             <span className="relative cursor-pointer">
-              <SearchICon onClick={handleFocus} />
+              <SearchICon onClick={handleSearch} />
             </span>
           </div>
         </div>

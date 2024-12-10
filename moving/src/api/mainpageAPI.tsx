@@ -64,6 +64,8 @@ export const fetchSeries = async (): Promise<defaultMoviePageType> => {
   return {
     page: 1,
     results: filteredMovies as defaultMovieType[],
+    total_pages: movies.total_pages, // fetchPopular에서 받아온 값
+    total_results: movies.total_results, // fetchPopular에서 받아온 값
   };
 };
 
@@ -82,12 +84,16 @@ export const fetchToday = async () => {
     return {
       page: 1,
       results: shuffledTrending,
+      total_pages: response.data.total_pages || 1, // API 응답에서 제공되지 않으면 기본값 사용
+      total_results: response.data.total_results || shuffledTrending.length,
     };
   } catch (error) {
     console.error('Error fetching trending content:', error);
     return {
       page: 1,
       results: [], // 에러 발생시 빈 배열 반환
+      total_pages: 0, // 에러 시 기본값 설정
+      total_results: 0, // 에러 시 기본값 설정
     };
   }
 };

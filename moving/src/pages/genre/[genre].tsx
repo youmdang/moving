@@ -57,13 +57,14 @@ export default function genre() {
           <hr className="mb-9 border-[1px] text-[#f3f3f3]" />
           <ul className="flex flex-wrap gap-[1.4vw]">
             {data?.pages.map((page) =>
-              page?.results.map((poster, index) => (
-                <li key={index}>
-                  <div className="w-[7.9vw] truncate">
-                    <div className="relative h-[11vw] ">
+              page?.results.map((poster) => (
+                <li key={poster.id}>
+                  <div className="h-[245px] w-[7.9vw] truncate">
+                    <div className="relative mb-4 ">
                       <Image
                         src={`${BASE_IMAGE_URL}${poster.poster_path}`}
-                        layout="fill"
+                        width={121.34}
+                        height={168.95}
                         alt="세로 포스터"
                         className="rounded-2xl"
                       />

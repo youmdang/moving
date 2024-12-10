@@ -1,20 +1,9 @@
 import { useEffect, useRef } from 'react';
-
-const images = [
-  '/images/movie1.png',
-  '/images/movie2.png',
-  '/images/movie3.png',
-  '/images/movie1.png',
-  '/images/movie2.png',
-  '/images/movie3.png',
-  '/images/movie1.png',
-  '/images/movie2.png',
-  '/images/movie3.png',
-  '/images/movie1.png',
-  '/images/movie2.png',
-];
+import { usePopularMovie } from '@/hook/mainpage/usePopularMovie';
+import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 
 const DualDirectionSlider = () => {
+  const { data, isLoading, isError } = usePopularMovie();
   const leftToRightRef = useRef<HTMLDivElement>(null);
   const rightToLeftRef = useRef<HTMLDivElement>(null);
 
@@ -24,45 +13,54 @@ const DualDirectionSlider = () => {
   ) => {
     if (!slider) return;
 
-    let start = direction === 'right' ? -slider.scrollWidth / 2 : 0; // 초기 시작 위치
-    const speed = 0.3; // 슬라이더 속도 조절 (값이 작을수록 느림)
+    let start = direction === 'right' ? -slider.scrollWidth / 2 : 0;
+    const speed = 0.3;
 
     const moveSlider = () => {
       if (direction === 'left') {
         start -= speed;
         if (start <= -slider.scrollWidth / 2) {
-          start = 0; // 절반만큼 이동하면 초기화
+          start = 0;
         }
       } else if (direction === 'right') {
         start += speed;
         if (start >= 0) {
-          start = -slider.scrollWidth / 2; // 오른쪽에서 왼쪽으로 이동한 만큼 초기화
+          start = -slider.scrollWidth / 2;
         }
       }
       slider.style.transform = `translateX(${start}px)`;
-      requestAnimationFrame(moveSlider); // 계속 호출
+      requestAnimationFrame(moveSlider);
     };
 
     requestAnimationFrame(moveSlider);
   };
 
   useEffect(() => {
-    const leftSlider = leftToRightRef.current;
-    const rightSlider = rightToLeftRef.current;
+    if (data && data.results.length > 0) {
+      const leftSlider = leftToRightRef.current;
+      const rightSlider = rightToLeftRef.current;
 
-    startSlider(leftSlider, 'right'); // 왼쪽 -> 오른쪽
-    startSlider(rightSlider, 'left'); // 오른쪽 -> 왼쪽
-  }, []);
+      startSlider(leftSlider, 'right');
+      startSlider(rightSlider, 'left');
+    }
+  }, [data]);
+
+  if (isLoading) return <div>로딩중...</div>;
+  if (isError) return <div>데이터를 가져오는데 실패했습니다.</div>;
+
+  const images = data?.results.map(
+    (movie: { id: number; backdrop_path: string }) =>
+      `${BASE_IMAGE_URL}${movie.backdrop_path}`
+  );
 
   return (
-    <div className="relative mt-[156px] overflow-hidden ">
+    <div className="relative mt-[156px] overflow-hidden">
       <h3 className="mb-4 text-center text-[40px] font-semibold text-white">
         무빙에서 뜨는 인기 영화들
       </h3>
       <p className="mb-11 text-center text-[24px] font-medium text-white">
         해외, 국내, 인기, 최신 영화
       </p>
-      {/* 오른쪽 -> 왼쪽 슬라이더 */}
       <div className="relative overflow-hidden">
         <div
           ref={rightToLeftRef}
@@ -72,26 +70,25 @@ const DualDirectionSlider = () => {
             willChange: 'transform',
           }}
         >
-          {images.map((src, index) => (
+          {images?.map((src, index) => (
             <img
               key={`rightToLeft-${index}`}
               src={src}
               alt={`Slide ${index}`}
-              className="h-[215px] w-[375px] flex-shrink-0"
+              className="h-[215px] w-[375px] flex-shrink-0 rounded-lg"
             />
           ))}
-          {images.map((src, index) => (
+          {images?.map((src, index) => (
             <img
               key={`rightToLeft-clone-${index}`}
               src={src}
               alt={`Slide Clone ${index}`}
-              className="h-[215px] w-[375px] flex-shrink-0"
+              className="h-[215px] w-[375px] flex-shrink-0 rounded-lg"
             />
           ))}
         </div>
       </div>
 
-      {/* 왼쪽 -> 오른쪽 슬라이더 */}
       <div className="relative mt-4 overflow-hidden">
         <div
           ref={leftToRightRef}
@@ -101,20 +98,20 @@ const DualDirectionSlider = () => {
             willChange: 'transform',
           }}
         >
-          {images.map((src, index) => (
+          {images?.map((src, index) => (
             <img
               key={`leftToRight-${index}`}
               src={src}
               alt={`Slide ${index}`}
-              className="h-[215px] w-[375px] flex-shrink-0"
+              className="h-[215px] w-[375px] flex-shrink-0 rounded-lg"
             />
           ))}
-          {images.map((src, index) => (
+          {images?.map((src, index) => (
             <img
               key={`leftToRight-clone-${index}`}
               src={src}
               alt={`Slide Clone ${index}`}
-              className="h-[215px] w-[375px] flex-shrink-0"
+              className="h-[215px] w-[375px] flex-shrink-0 rounded-lg"
             />
           ))}
         </div>

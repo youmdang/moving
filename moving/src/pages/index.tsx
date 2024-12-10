@@ -6,8 +6,17 @@ import XIcon from '@/icons/x(sns)Icon.svg';
 import TiktokIcon from '@/icons/tiktokIcon.svg';
 import InstarIcon from '@/icons/instagramIcon.svg';
 import MovingLogo from '@/images/moving-large.png';
+import Recent from '@/components/render/Recent';
+import check from '@/images/check.png';
+import { useRouter } from 'next/router';
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleButtonClick = () => {
+    router.push('/mainPage');
+  };
+
   return (
     <>
       <section className="">
@@ -24,14 +33,17 @@ export default function Home() {
             height={840}
             alt="메인 베너"
           />
-          <div className="text-[#f3f3f3]] absolute left-[50%] top-[50%] w-[625px] translate-x-[-50%] translate-y-[-50%] text-center">
+          <div className="text-[#f3f3f3]] absolute left-[50%] top-[50%] w-[700px] translate-x-[-50%] translate-y-[-50%] text-center">
             <h1 className="text-[#f3f3f3]] flex flex-col gap-2  whitespace-nowrap">
               <span className="text-5xl font-bold leading-[72px]">
                 인기 상영작부터<br></br> 곧 개봉하는 따끈한 신작들까지!<br></br>
-                무제한으로 스트리밍 해보세요.
+                &nbsp;무제한으로 스트리밍 해보세요.
               </span>
             </h1>
-            <button className="mt-8 h-[63px] w-[356px] rounded-xl bg-[#2D73F3] text-xl font-bold">
+            <button
+              className="mt-8 h-[63px] w-[356px] rounded-xl bg-[#2D73F3] text-xl font-bold"
+              onClick={handleButtonClick}
+            >
               지금 시청하기
             </button>
           </div>
@@ -50,87 +62,137 @@ export default function Home() {
               MOVING 앱에서 스트리밍 가능.
             </h3>
 
-            <div className="m-auto mt-[72px] flex justify-between">
-              {[
-                {
-                  title: 'BASIC',
-                  price: '5,500',
-                  priceColor: 'text-gray-100',
-                  cardColor: '#2D73F3',
-                  quality: '좋음',
-                  resolution: '1080p (풀HD)',
-                  devices: 'TV, 컴퓨터, 스마트폰, 태블릿',
-                  deviceCount: '2',
-                  ads: '적은 광고',
-                },
-                {
-                  title: 'STANDARD',
-                  price: '7,500',
-                  priceColor: 'text-blue-400',
-                  cardColor: '#2D73F3',
-                  quality: '매우 좋음',
-                  resolution: '1080p (풀HD)',
-                  devices: 'TV, 컴퓨터, 스마트폰, 태블릿',
-                  deviceCount: '2',
-                  ads: '광고 없음',
-                },
-                {
-                  title: 'PREMIUM',
-                  price: '12,500',
-                  priceColor: 'text-yellow-400',
-                  cardColor: '#2D73F3',
-                  quality: '매우 좋음',
-                  resolution: '4K(UHD) + HDR',
-                  devices: 'TV, 컴퓨터, 스마트폰, 태블릿',
-                  deviceCount: '4',
-                  ads: '광고 없음',
-                },
-              ].map((plan, index) => (
-                <div
-                  key={index}
-                  className={`border-gray-600 h-[403px] w-[372px] border p-8 ${plan.cardColor} rounded-lg shadow-md`}
-                >
-                  <h2 className="text-2xl font-bold">{plan.title}</h2>
-                  <p
-                    className={`text-4xl font-semibold ${plan.priceColor} mt-2`}
+            <div className="py-[72px] text-[#d9d9d9]">
+              <div className="m-auto flex max-w-[1400px] flex-col items-center justify-between gap-8 sm:flex-row">
+                {[
+                  {
+                    title: 'BASIC',
+                    price: '5,500',
+                    priceColor: 'text-gray-100',
+                    borderColor: '#363636',
+                    cardColor: '#202125',
+                    quality: '좋음',
+                    resolution: '1080p (풀HD)',
+                    devices: 'TV, 컴퓨터, 스마트폰, 태블릿',
+                    deviceCount: '2',
+                    ads: '적은 광고',
+                    tags: [],
+                    imageCount: 1,
+                  },
+                  {
+                    title: 'STANDARD',
+                    price: '7,500',
+                    priceColor: 'text-blue-400',
+                    borderColor: '#363636',
+                    cardColor: '#202125',
+                    quality: '매우 좋음',
+                    resolution: '1080p (풀HD)',
+                    devices: 'TV, 컴퓨터, 스마트폰, 태블릿',
+                    deviceCount: '2',
+                    ads: '광고 없음',
+                    tags: [{ label: '고화질', color: '#d9d9d9' }],
+                    imageCount: 2,
+                  },
+                  {
+                    title: 'PREMIUM',
+                    price: '12,500',
+                    priceColor: 'text-yellow-400',
+                    cardColor: '#202125',
+                    borderColor: '#2D73F3',
+                    quality: '매우 좋음',
+                    resolution: '4K(UHD) + HDR',
+                    devices: 'TV, 컴퓨터, 스마트폰, 태블릿',
+                    deviceCount: '4',
+                    ads: '광고 없음',
+                    tags: [
+                      { label: '가장 인기있는', color: '#2D73F3' },
+                      { label: '프리미엄', color: '#2D73F3' },
+                    ],
+                    imageCount: 3,
+                  },
+                ].map((plan, index) => (
+                  <div
+                    key={index}
+                    className={`flex h-[395px] w-full flex-col rounded-lg p-8 shadow-md transition-transform hover:scale-105 sm:w-[372px]`}
+                    style={{
+                      backgroundColor: plan.cardColor,
+                      border: `2px solid ${plan.borderColor}`,
+                    }}
                   >
-                    {plan.price}
-                    <span className="ml-2 text-base font-bold">원 / 월</span>
-                  </p>
-                  <ul className="text-gray-300 mt-4 space-y-2 text-sm">
-                    <li className="flex justify-start">
-                      <div className="w-[92px] pr-4">화질과 음질 </div>
-                      <span className="text-base font-semibold">
+                    <div>
+                      <h2 className="mr-2 inline-block text-left text-2xl font-bold">
+                        {plan.title}
+                      </h2>
+                      {plan.tags.map((tag, tagIndex) => (
+                        <span
+                          key={tagIndex}
+                          className="mr-1 rounded-full border px-2 py-1 text-xs font-semibold"
+                          style={{
+                            borderColor: tag.color,
+                            color: tag.color,
+                          }}
+                        >
+                          {tag.label}
+                        </span>
+                      ))}
+                      <p
+                        className={`text-5xl font-extrabold ${plan.priceColor} mt-1 text-left`}
+                      >
+                        {plan.price}
+                        <span className="ml-1 text-base font-medium">
+                          원 / 월
+                        </span>
+                      </p>
+                    </div>
+
+                    <div className="my-6 flex space-x-2">
+                      {Array.from({ length: plan.imageCount }).map(
+                        (_, imageIndex) => (
+                          <Image
+                            key={imageIndex}
+                            src={'/images/check.png'}
+                            width={32}
+                            height={32}
+                            alt={`check icon ${imageIndex + 1}`}
+                          />
+                        )
+                      )}
+                    </div>
+                    <ul className="text-gray-300 space-y-4 text-sm">
+                      <li>
+                        <span className="mr-4 inline-block h-[16px] w-[75px] font-semibold text-white">
+                          화질과 음질
+                        </span>{' '}
                         {plan.quality}
-                      </span>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="w-[92px] pr-4">해상도</div>
-                      <span className="text-base font-semibold">
+                      </li>
+                      <li>
+                        <span className="mr-4 inline-block h-[16px] w-[75px] font-semibold text-white">
+                          해상도
+                        </span>{' '}
                         {plan.resolution}
-                      </span>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="w-[92px] pr-4">디바이스</div>
-                      <span className="text-base font-semibold">
+                      </li>
+                      <li>
+                        <span className="mr-4 inline-block h-[16px] w-[75px] font-semibold text-white">
+                          디바이스
+                        </span>{' '}
                         {plan.devices}
-                      </span>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="w-[92px] pr-4">기기 수 </div>
-                      <span className="text-base font-semibold">
+                      </li>
+                      <li>
+                        <span className="mr-4 inline-block h-[16px] w-[75px] font-semibold text-white">
+                          기기 수
+                        </span>{' '}
                         {plan.deviceCount}
-                      </span>
-                    </li>
-                    <li className="flex justify-start">
-                      <div className="w-[92px] pr-4">광고 </div>
-                      <span className="text-base font-semibold">
+                      </li>
+                      <li>
+                        <span className="mr-4 inline-block h-[16px] w-[75px] font-semibold text-white">
+                          광고
+                        </span>{' '}
                         {plan.ads}
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-              ))}
+                      </li>
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <div className="relative m-auto mt-[156px] w-[1400px]">
@@ -142,38 +204,7 @@ export default function Home() {
               <br /> 개봉 영화를 감상해 보세요.
             </p>
 
-            <div className="relative flex items-center justify-center">
-              {/* 왼쪽 이미지 */}
-              <div className="absolute left-0 z-0 h-[400px] w-[600px] translate-x-[0%] translate-y-[13%] opacity-70">
-                <Image
-                  src="/images/movie1.png"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Left Movie"
-                  className="rounded-lg shadow-lg"
-                />
-              </div>
-              {/* 가운데 이미지 */}
-              <div className="relative z-10 h-[506px] w-[789px]">
-                <Image
-                  src="/images/movie2.png"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Center Movie"
-                  className="rounded-lg shadow-xl transition-transform duration-300"
-                />
-              </div>
-              {/* 오른쪽 이미지 */}
-              <div className="absolute right-0 z-0 h-[400px] w-[600px] translate-x-[0%] translate-y-[13%] opacity-70">
-                <Image
-                  src="/images/movie3.png"
-                  layout="fill"
-                  objectFit="cover"
-                  alt="Right Movie"
-                  className="rounded-lg shadow-lg"
-                />
-              </div>
-            </div>
+            <Recent></Recent>
           </div>
 
           <Slide></Slide>
@@ -193,7 +224,10 @@ export default function Home() {
               </h3>
             </div>
             <div>
-              <button className="mt-8 h-[63px] w-[356px] rounded-xl bg-[#2D73F3] text-xl font-bold">
+              <button
+                className="mt-8 h-[63px] w-[356px] rounded-xl bg-[#2D73F3] text-xl font-bold"
+                onClick={handleButtonClick}
+              >
                 지금 시청하기
               </button>
             </div>
