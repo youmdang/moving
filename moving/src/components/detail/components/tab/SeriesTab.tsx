@@ -15,7 +15,7 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
   const { resetModalAnimate } = useModalAnimateStore();
 
   return (
-    <div className="px-20 pb-10 text-white">
+    <div className="pb-10 text-white sm:px-5 lg:px-20">
       {seriesData?.parts?.length > 0 ? (
         seriesData.parts
           .sort(
@@ -52,11 +52,13 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
                     alt={`${part.title} 포스터 이미지`}
                   />
                 </div>
-                <div className="basis-[80%] pr-20">
-                  <h3 className="mb-1 text-xl font-bold">{part.title}</h3>
-                  <div className="mb-4 flex items-center gap-3">
+                <div className="basis-[80%] pr-2 sm:pr-10 md:pr-20">
+                  <h3 className="mb-1 text-base font-bold md:text-xl">
+                    {part.title}
+                  </h3>
+                  <div className="mb-4 flex flex-wrap items-center gap-3">
                     <span className="text-base font-medium">({movieYear})</span>
-                    <div className="rounded-lg border-[1px] border-[#F29B2E] px-3 py-[2px] text-sm font-normal text-[#F29B2E]">
+                    <div className="break-keep rounded-lg border-[1px] border-[#F29B2E] px-3 py-[2px] text-sm font-normal text-[#F29B2E]">
                       {genreResultList.map(
                         (
                           genreResult: { id: number; name: string },
