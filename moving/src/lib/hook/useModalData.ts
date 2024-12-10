@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import {
   fetchCertificationData,
   fetchCreditData,
+  fetchGenreData,
   fetchMovieData,
   fetchRecommendationData,
   fetchReviewData,
@@ -17,6 +18,13 @@ export const useModalData = (movieId: number, language: string) => {
   const movieQuery = useQuery({
     queryKey: ['movieData', movieId],
     queryFn: async () => await fetchMovieData({ movieId }),
+    enabled: !!movieId,
+  });
+
+  // 카테고리 데이터
+  const genreQuery = useQuery({
+    queryKey: ['GenreData'],
+    queryFn: async () => await fetchGenreData(),
     enabled: !!movieId,
   });
 
@@ -88,5 +96,6 @@ export const useModalData = (movieId: number, language: string) => {
     recommendationQuery,
     seriesQuery,
     ageQuery,
+    genreQuery,
   };
 };

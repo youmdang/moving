@@ -6,8 +6,11 @@ import { useEffect } from 'react';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import dayjs from 'dayjs';
 import { motion } from 'framer-motion';
+interface SeriesProps {
+  handleModalOpen?: (id: number) => void;
+}
 
-export default function Series() {
+export default function Series({ handleModalOpen }: SeriesProps) {
   const { genres, fetchGenres } = useGenreStore();
   const { data, isLoading, isError } = useSeriesMovie();
 
@@ -39,6 +42,9 @@ export default function Series() {
         {limitedData?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
+            onClick={() => {
+              handleModalOpen?.(poster.id);
+            }}
             key={poster.id}
             className="h-auto max-w-[11vw] cursor-pointer "
           >

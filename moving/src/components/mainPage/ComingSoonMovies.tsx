@@ -3,8 +3,11 @@ import { useUpcomingMovie } from '@/hook/mainpage/useUpcomingMovie';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+interface BeforeOpeningProps {
+  handleModalOpen?: (id: number) => void;
+}
 
-export default function BeforeOpening() {
+export default function BeforeOpening({ handleModalOpen }: BeforeOpeningProps) {
   const { data, isLoading, isError } = useUpcomingMovie();
 
   const limited = data?.results.slice(0, 5);
@@ -24,6 +27,9 @@ export default function BeforeOpening() {
         {limited?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
+            onClick={() => {
+              handleModalOpen?.(poster.id);
+            }}
             key={poster.id}
             className="relative h-auto max-w-[14.53vw] cursor-pointer "
           >

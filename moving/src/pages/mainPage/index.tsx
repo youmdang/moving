@@ -11,26 +11,49 @@ import XIcon from '@/icons/x(sns)Icon.svg';
 import TiktokIcon from '@/icons/tiktokIcon.svg';
 import InstarIcon from '@/icons/instagramIcon.svg';
 import MainBanner from '@/components/mainPage/MainBanner';
+import { useModal } from '@/lib/hook/useModal';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+import ModalFrame from '@/components/modal/ModalFrame';
+import DetailModal from '@/components/detail/DetailModal';
 
 export default function mainPage() {
+  const { isOpenModal, isOpacity, handleModalOpen, handleModalClose } =
+    useModal();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.movieNumber) {
+      const movieNumber = Number(router.query.movieNumber);
+      handleModalOpen(movieNumber);
+    }
+  }, []);
   return (
     <>
       <main>
-        <MainBanner />
+        <ModalFrame
+          isOpenModal={isOpenModal}
+          isOpacity={isOpacity}
+          handleModalClose={handleModalClose}
+        >
+          {isOpenModal && <DetailModal isOpacity={isOpacity} />}
+        </ModalFrame>
 
-        <WeeksTrend />
+        <MainBanner handleModalOpen={handleModalOpen} />
 
-        <GameMovie />
+        <WeeksTrend handleModalOpen={handleModalOpen} />
 
-        <BeforeOpening />
+        <GameMovie handleModalOpen={handleModalOpen} />
 
-        <Series />
+        <BeforeOpening handleModalOpen={handleModalOpen} />
 
-        <PopularMovies />
+        <Series handleModalOpen={handleModalOpen} />
+
+        <PopularMovies handleModalOpen={handleModalOpen} />
 
         <Membership />
 
-        <TodayContent />
+        <TodayContent handleModalOpen={handleModalOpen} />
       </main>
 
       <footer className="mt-[108px] opacity-60">

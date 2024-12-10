@@ -6,9 +6,10 @@ import Image from 'next/image';
 
 interface SeriesTabProps {
   seriesData: SeriesData;
+  genreData: any;
 }
 
-export default function SeriesTab({ seriesData }: SeriesTabProps) {
+export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
   const { setScrollTop } = useModalStore();
   const { handleModalChange } = useModal();
   const { resetModalAnimate } = useModalAnimateStore();
@@ -26,6 +27,10 @@ export default function SeriesTab({ seriesData }: SeriesTabProps) {
             const movieYear = new Date(part.release_date).getFullYear();
             const posterImage =
               process.env.NEXT_PUBLIC_BACK_IMAGE_URL + part.poster_path;
+
+            const genreResultList = genreData.genres.filter((genre: any) =>
+              part.genre_ids.includes(genre.id)
+            );
 
             return (
               <div
@@ -51,9 +56,21 @@ export default function SeriesTab({ seriesData }: SeriesTabProps) {
                   <h3 className="mb-1 text-xl font-bold">{part.title}</h3>
                   <div className="mb-4 flex items-center gap-3">
                     <span className="text-base font-medium">({movieYear})</span>
-                    <span className="rounded-lg border-[1px] border-[#F29B2E] px-3 py-[2px] text-sm font-normal text-[#F29B2E]">
-                      Hero
-                    </span>
+                    <div className="rounded-lg border-[1px] border-[#F29B2E] px-3 py-[2px] text-sm font-normal text-[#F29B2E]">
+                      {genreResultList.map(
+                        (
+                          genreResult: { id: number; name: string },
+                          index: number
+                        ) => {
+                          return (
+                            <span key={genreResult.id}>
+                              {genreResult.name}
+                              {index < genreResultList.length - 1 && ', '}
+                            </span>
+                          );
+                        }
+                      )}
+                    </div>
                   </div>
                   <p className="line-clamp-3">{part.overview}</p>
                 </div>

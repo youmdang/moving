@@ -6,8 +6,11 @@ import { useTodayMovie } from '@/hook/mainpage/useTodayMovie';
 import dayjs from 'dayjs';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import { motion } from 'framer-motion';
+interface TodayContentProps {
+  handleModalOpen?: (id: number) => void;
+}
 
-export default function TodayContent() {
+export default function TodayContent({ handleModalOpen }: TodayContentProps) {
   const { genres, fetchGenres } = useGenreStore();
   const { data, isLoading, isError } = useTodayMovie();
 
@@ -39,6 +42,9 @@ export default function TodayContent() {
         {limitedData?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
+            onClick={() => {
+              handleModalOpen?.(poster.id);
+            }}
             key={poster.id}
             className="h-auto max-w-[11vw] cursor-pointer "
           >

@@ -19,28 +19,41 @@ export default function RelatedWorksTab({
   const { resetModalAnimate } = useModalAnimateStore();
 
   return (
-    <div className="grid grid-cols-[repeat(6,1fr)] gap-x-6 gap-y-9 px-20 pb-10 text-white">
-      {recommendationData.results.map((result) => {
-        const image = movieImage(result.poster_path);
-        return (
-          <div key={result.id} className="flex flex-col">
-            <div
-              className="mb-2 flex-shrink-0 cursor-pointer"
-              onClick={() => {
-                handleModalChange(result.id);
-                resetModalAnimate();
-                setTabIsActive(0);
-                setScrollTop();
-              }}
-            >
-              <Image src={image} width={130} height={178} alt="포스터 이미지" />
-            </div>
-            <h4 className="line-clamp-1 text-base font-semibold text-white">
-              {result.title}
-            </h4>
-          </div>
-        );
-      })}
-    </div>
+    <>
+      {recommendationData.results.length > 0 ? (
+        <div className="grid grid-cols-[repeat(6,1fr)] gap-x-6 gap-y-9 px-20 pb-10 text-white">
+          {recommendationData.results.map((result) => {
+            const image = movieImage(result.poster_path);
+            return (
+              <div key={result.id} className="flex flex-col">
+                <div
+                  className="mb-2 flex-shrink-0 cursor-pointer"
+                  onClick={() => {
+                    handleModalChange(result.id);
+                    resetModalAnimate();
+                    setTabIsActive(0);
+                    setScrollTop();
+                  }}
+                >
+                  <Image
+                    src={image}
+                    width={130}
+                    height={178}
+                    alt="포스터 이미지"
+                  />
+                </div>
+                <h4 className="line-clamp-1 text-base font-semibold text-white">
+                  {result.title}
+                </h4>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="flex h-[300px] w-full items-center justify-center">
+          연관된 작품이 없습니다.
+        </div>
+      )}
+    </>
   );
 }

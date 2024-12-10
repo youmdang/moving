@@ -6,8 +6,11 @@ import { usePopularMovie } from '@/hook/mainpage/usePopularMovie';
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+interface PopularMoviesProps {
+  handleModalOpen?: (id: number) => void;
+}
 
-export default function PopularMovies() {
+export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
   const { data, isLoading, isError } = usePopularMovie();
   const [startIndex, setStartIndex] = useState(0);
 
@@ -43,6 +46,9 @@ export default function PopularMovies() {
         {limited?.map((poster, index) => (
           <motion.li
             whileHover={{ scale: 0.9 }}
+            onClick={() => {
+              handleModalOpen?.(poster.id);
+            }}
             key={poster.id}
             className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer "
           >
