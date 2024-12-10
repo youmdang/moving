@@ -7,19 +7,27 @@ export const useModal = () => {
   const router = useRouter();
 
   const handleModalOpen = (id: number) => {
-    router.replace({
-      pathname: router.pathname,
-      query: { ...router.query, movieNumber: id },
-    });
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, movieNumber: id },
+      },
+      undefined,
+      { scroll: false }
+    );
     setIsOpenModal(true);
     setIsOpacity(true);
   };
 
   const handleModalChange = (id: number) => {
-    router.replace({
-      pathname: router.pathname,
-      query: { ...router.query, movieNumber: id },
-    });
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, movieNumber: id },
+      },
+      undefined,
+      { scroll: false }
+    );
   };
 
   const handleModalClose = () => {
@@ -27,10 +35,14 @@ export const useModal = () => {
     setIsOpacity(false);
 
     setTimeout(() => {
-      router.replace({
-        pathname: router.pathname,
-        query: restQueries,
-      });
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: restQueries,
+        },
+        undefined,
+        { scroll: false }
+      );
       setIsOpenModal(false);
     }, 500);
   };
