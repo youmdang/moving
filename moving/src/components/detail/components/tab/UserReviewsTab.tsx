@@ -4,6 +4,10 @@ import { Review, ReviewResultData } from '@/types/detail/type';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import ReviewDropDown from './ReviewDropDown';
+import { reviewTimeAgo } from '@/lib/utils/reviewTimeAgo';
+import { movieReviewStar } from '@/lib/utils/movieReviewStar';
+import { useModalSort } from '@/lib/hook/useModalSort';
 
 interface UserReviewsTabProps {
   reviewData: Review;
@@ -18,25 +22,15 @@ export default function UserReviewsTab({
 }: UserReviewsTabProps) {
   const MAX_STAR = 5;
   const TOTAL_PAGE_NUMBER = reviewData.total_results;
+  const { sortText, setSortText, sortedReviews } = useModalSort(
+    reviewData.results
+  );
   const [pageReviewList, setPageReviewList] = useState<ReviewResultData[]>([]);
   const [sliceNumber, setSliceNumber] = useState(0);
   const [viewPage, setViewPage] = useState(1);
   const { setScrollTop } = useModalStore();
-
-  const movieReviewStar = (() => {
-    const results = reviewData.results;
-    if (results.length === 0) return 0; // 빈 배열 처리
-
-    const totalRating = results.reduce((sum, item) => {
-      const rating = item.author_details?.rating;
-      return sum + (rating || 0);
-    }, 0);
-
-    const averageRating = totalRating / results.length;
-    return (averageRating / 2).toFixed(1);
-  })();
-  console.log(pageReviewList);
-  console.log(sliceNumber);
+  const reviewStarResult = movieReviewStar(reviewData);
+  console.log(sortedReviews);
 
   const handleNextPage = () => {
     if (viewPage === reviewData.total_results) {
@@ -66,12 +60,9 @@ export default function UserReviewsTab({
   };
 
   useEffect(() => {
-    const newReviewList = reviewData.results.slice(
-      sliceNumber,
-      sliceNumber + 5
-    );
+    const newReviewList = sortedReviews.slice(sliceNumber, sliceNumber + 5);
     setPageReviewList(newReviewList);
-  }, [viewPage]);
+  }, [sliceNumber, sortText, sortedReviews]);
 
   return (
     <div className="px-20 pb-10 text-white">
@@ -84,19 +75,19 @@ export default function UserReviewsTab({
         />
         <div className="flex flex-col items-center gap-3">
           <h3 className="text-3xl font-bold text-[#F29B2E]">
-            {movieReviewStar}
+            {reviewStarResult}
           </h3>
           <span className="text-sm font-normal text-[#D9D9D9]">
             {reviewData.total_results} Reviews · Average{' '}
           </span>
           <div className="flex items-center gap-2">
-            {Number(movieReviewStar) !== 0
+            {Number(reviewStarResult) !== 0
               ? Array.from({ length: MAX_STAR }, (_, index) => {
                   return (
                     <span key={index}>
                       <Image
                         src={
-                          index > Number(movieReviewStar) - 1
+                          index > Number(reviewStarResult) - 1
                             ? 'icons/starOutIcon.svg'
                             : 'icons/starOnIcon.svg'
                         }
@@ -133,23 +124,12 @@ export default function UserReviewsTab({
         <>
           <div className="mb-12 flex items-center justify-between">
             <span>리뷰 ({reviewData.total_results})</span>
-            <button
-              type="button"
-              className="flex items-center gap-2 text-sm"
-              onClick={() => {}}
-            >
-              별점 순{' '}
-              <Image
-                src="/icons/sortIcon.svg"
-                width={15}
-                height={10}
-                alt="정렬 아이콘"
-              />
-            </button>
+            <ReviewDropDown sortText={sortText} setSortText={setSortText} />
           </div>
           {pageReviewList.map((result) => {
             const profileImage = movieImage(result.author_details.avatar_path);
             const reviewStar = Math.floor(result.author_details.rating / 2);
+            const ageText = reviewTimeAgo(result.created_at);
             return (
               <div
                 key={result.id}
@@ -177,16 +157,19 @@ export default function UserReviewsTab({
                                   ? 'icons/starOutIcon.svg'
                                   : 'icons/starOnIcon.svg'
                               }
-                              width={28}
-                              height={28}
+                              width={20}
+                              height={20}
                               alt="별점 아이콘"
                             />
                           </span>
                         );
                       })}
+                      <span className="ml-2 block pt-1 text-sm font-semibold">
+                        {result.author_details.rating / 2}
+                      </span>
                     </div>
                     <span className="text-xs font-normal text-[#77777777]">
-                      1개월 전
+                      {ageText}
                     </span>
                   </div>
                 </div>
@@ -208,6 +191,7 @@ export default function UserReviewsTab({
                 (_, index) => {
                   return (
                     <button
+                      key={index}
                       type="button"
                       onClick={() => handleViewPage(index + 1)}
                       className={clsx(
