@@ -28,7 +28,7 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
   const limitedData = data?.results.slice(0, 6);
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return;
   }
 
   if (isError) {

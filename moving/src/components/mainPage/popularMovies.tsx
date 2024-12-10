@@ -15,7 +15,7 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
   const [startIndex, setStartIndex] = useState(0);
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return;
   }
 
   if (isError) {

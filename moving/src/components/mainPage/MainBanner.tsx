@@ -39,7 +39,7 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
   );
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return;
   }
 
   if (isError) {
@@ -47,7 +47,7 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
   }
 
   if (!limitedData || limitedData.length === 0) {
-    return <div>추천영화가 없습니다.</div>;
+    return;
   }
   const handleNext = () => {
     if (currentGroupIndex < Math.ceil(limitedData.length / 4) - 1) {

@@ -13,7 +13,7 @@ export default function BeforeOpening({ handleModalOpen }: BeforeOpeningProps) {
   const limited = data?.results.slice(0, 5);
 
   if (isLoading) {
-    <div>로딩중</div>;
+    return;
   }
 
   if (isError) {

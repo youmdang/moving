@@ -29,11 +29,11 @@ export default function GameMovie({ handleModalOpen }: GameMovieProps) {
   const limitedData = data?.results.slice(0, 6);
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return;
   }
 
   if (isError) {
-    return <div> 네트워크 에러2</div>;
+    return <div> 네트워크 에러</div>;
   }
 
   return (
