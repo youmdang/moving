@@ -13,8 +13,9 @@ export default function DetailsTab({
   ageData,
   creditData,
 }: DetailsTabProps) {
-  const posterImage =
-    process.env.NEXT_PUBLIC_BACK_IMAGE_URL + movieData.poster_path;
+  const posterImage = movieData.poster_path
+    ? process.env.NEXT_PUBLIC_BACK_IMAGE_URL + movieData.poster_path
+    : '/images/defaultPoster.png';
   const dateYear = new Date(movieData.release_date).getFullYear();
   const dateMonth = new Date(movieData.release_date).getMonth();
   const writing = creditData.crew.find((key: any) => key.job === 'Director');
@@ -68,7 +69,7 @@ export default function DetailsTab({
           </h3>
           <div className="flex gap-3">
             <span className="flex-shrink-0 text-sm font-semibold">개요</span>
-            <span className="text-sm font-normal">{`${dateYear} ・ ${dateMonth}`}</span>
+            <span className="text-sm font-normal">{`${dateYear ? dateYear : ''} ・ ${dateMonth ? dateMonth : ''}`}</span>
           </div>
           <div className="flex gap-3">
             <span className="flex-shrink-0 text-sm font-semibold">장르</span>

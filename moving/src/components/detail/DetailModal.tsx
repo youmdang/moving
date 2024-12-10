@@ -49,6 +49,9 @@ export default function DetailModal({
 
   // 영화 개봉년도
   const movieYear = new Date(movieQuery.data?.release_date).getFullYear();
+  const modalBackPoster = movieQuery.data?.backdrop_path
+    ? process.env.NEXT_PUBLIC_BACK_IMAGE_URL + movieQuery.data.backdrop_path
+    : '/images/defaultBackPoster.png';
   console.log(movieQuery.data);
 
   useEffect(() => {
@@ -94,7 +97,7 @@ export default function DetailModal({
           modalAnimate && 'animate-zoomBg'
         )}
         style={{
-          backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url(${process.env.NEXT_PUBLIC_BACK_IMAGE_URL}${movieQuery.data.backdrop_path})`,
+          backgroundImage: `linear-gradient(to top, rgba(0, 0, 0, 0.9) 10%, rgba(0, 0, 0, 0.4) 100%), url(${modalBackPoster})`,
         }}
       >
         <div className="mb-24 flex items-center justify-between sm:mb-40 md:mb-52">
@@ -128,9 +131,13 @@ export default function DetailModal({
           </div>
           <h3 className="text-2xl font-semibold text-white sm:text-4xl lg:text-[46px]">
             {movieQuery.data.title}{' '}
-            <span className="text-lg font-normal text-[#D9D9D9] sm:text-2xl lg:text-3xl">
-              ({movieYear})
-            </span>
+            {movieYear ? (
+              <span className="text-lg font-normal text-[#D9D9D9] sm:text-2xl lg:text-3xl">
+                ({movieYear})
+              </span>
+            ) : (
+              ''
+            )}
           </h3>
           <ul className="mb-4 mt-3 flex flex-wrap items-center gap-2 lg:mb-6 lg:mt-4">
             {seriesQuery.data?.parts.length > 0 && (

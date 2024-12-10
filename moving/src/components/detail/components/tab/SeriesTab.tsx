@@ -25,8 +25,9 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
           )
           .map((part) => {
             const movieYear = new Date(part.release_date).getFullYear();
-            const posterImage =
-              process.env.NEXT_PUBLIC_BACK_IMAGE_URL + part.poster_path;
+            const posterImage = part.poster_path
+              ? process.env.NEXT_PUBLIC_BACK_IMAGE_URL + part.poster_path
+              : '/images/defaultPoster.png';
 
             const genreResultList = genreData.genres.filter((genre: any) =>
               part.genre_ids.includes(genre.id)
@@ -58,7 +59,13 @@ export default function SeriesTab({ seriesData, genreData }: SeriesTabProps) {
                     {part.title}
                   </h3>
                   <div className="mb-4 flex flex-wrap items-center gap-3">
-                    <span className="text-base font-medium">({movieYear})</span>
+                    {movieYear ? (
+                      <span className="text-base font-medium">
+                        ({movieYear})
+                      </span>
+                    ) : (
+                      ''
+                    )}
                     <div className="break-keep rounded-lg border-[1px] border-[#F29B2E] px-3 py-[2px] text-xs font-normal text-[#F29B2E] sm:text-sm">
                       {genreResultList.map(
                         (
