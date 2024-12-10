@@ -39,14 +39,14 @@ export default function SearchResult({
         {data?.pages.map((page) =>
           page?.results.map((poster) => (
             <li key={poster.id}>
-              <div className="w-[7.9vw] truncate">
-                <div className="relative h-[11vw] ">
+              <div className="h-[245px] w-[7.9vw] truncate">
+                <div className="relative mb-4 ">
                   <Image
                     src={`${BASE_IMAGE_URL}${poster.poster_path}`}
-                    layout="fill"
+                    width={121.34}
+                    height={168.95}
                     alt="세로 포스터"
                     className="rounded-2xl"
-                    quality={100}
                   />
                 </div>
                 <span>{poster.title}</span>

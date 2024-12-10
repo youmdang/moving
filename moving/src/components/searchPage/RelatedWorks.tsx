@@ -22,14 +22,14 @@ export default function RelatedWorks({ movieId }: fetchRelatedWorksProps) {
       <ul className="flex flex-wrap gap-[1.4vw]">
         {limitedData?.map((poster) => (
           <li key={poster.id}>
-            <div className="w-[7.9vw] truncate">
-              <div className="relative h-[11vw] w-[7.9vw]">
+            <div className="h-[245px] w-[7.9vw] truncate">
+              <div className="relative mb-4 ">
                 <Image
                   src={`${BASE_IMAGE_URL}${poster.poster_path}`}
-                  layout="fill"
+                  width={121.34}
+                  height={168.95}
                   alt="세로 포스터"
                   className="rounded-2xl"
-                  quality={100}
                 />
               </div>
               <span>{poster.title}</span>
