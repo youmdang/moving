@@ -49,9 +49,19 @@ export const fetchCreditData = async ({ movieId }: { movieId: number }) => {
 };
 
 // 리뷰 데이터 가져오기
-export const fetchReviewData = async ({ movieId }: { movieId: number }) => {
+export const fetchReviewData = async ({
+  movieId,
+  language,
+  page,
+}: {
+  movieId: number;
+  language: string;
+  page: number;
+}) => {
   try {
-    const response = await axiosInstance.get(`movie/${movieId}/reviews`);
+    const response = await axiosInstance.get(`movie/${movieId}/reviews`, {
+      params: { language, page },
+    });
     return response.data;
   } catch (error) {
     console.log('리뷰 데이터 오류', error);

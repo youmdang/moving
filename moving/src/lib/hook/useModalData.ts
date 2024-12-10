@@ -8,8 +8,11 @@ import {
   fetchSeriesData,
   fetchTrailerData,
 } from '../apis/modal/api';
+import { useState } from 'react';
 
-export const useModalData = (movieId: number) => {
+export const useModalData = (movieId: number, language: string) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
   // 영화 데이터
   const movieQuery = useQuery({
     queryKey: ['movieData', movieId],
@@ -26,8 +29,9 @@ export const useModalData = (movieId: number) => {
 
   // 리뷰 데이터
   const reviewQuery = useQuery({
-    queryKey: ['reviewData', movieId],
-    queryFn: async () => await fetchReviewData({ movieId }),
+    queryKey: ['reviewData', movieId, currentPage],
+    queryFn: async () =>
+      await fetchReviewData({ movieId, language: language, page: currentPage }),
     enabled: !!movieId,
   });
 
@@ -56,7 +60,7 @@ export const useModalData = (movieId: number) => {
         collectionId: movieQuery.data?.belongs_to_collection.id,
       });
     },
-    enabled: !!movieId && !!movieQuery.data?.belongs_to_collection.id,
+    enabled: !!movieId && !!movieQuery.data?.belongs_to_collection?.id,
   });
 
   // 나이제한 데이터
@@ -78,6 +82,8 @@ export const useModalData = (movieId: number) => {
     movieQuery,
     creditQuery,
     reviewQuery,
+    currentPage,
+    setCurrentPage,
     trailerQuery,
     recommendationQuery,
     seriesQuery,

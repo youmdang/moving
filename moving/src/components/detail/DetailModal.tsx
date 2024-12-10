@@ -28,18 +28,19 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
   ];
   const router = useRouter();
   const { movieNumber } = router.query;
-  console.log(movieNumber);
   const { modalAnimate, modalAnimateActive } = useModalAnimateStore();
-  const [tabIsActive, setTabIsActive] = useState(0);
+  const [tabIsActive, setTabIsActive] = useState<number>(0);
   const {
     movieQuery,
     creditQuery,
     reviewQuery,
+    currentPage,
+    setCurrentPage,
     trailerQuery,
     recommendationQuery,
     seriesQuery,
     ageQuery,
-  } = useModalData(Number(movieNumber));
+  } = useModalData(Number(movieNumber), 'en-US');
 
   // 영화 개봉년도
   const movieYear = new Date(movieQuery.data?.release_date).getFullYear();
@@ -97,7 +98,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           <div className="mb-4 flex items-center gap-6">
             <span className={`${reviewFavoriteClass} font-semibold`}>
               <Star />
-              {movieQuery.data.vote_average}
+              {movieQuery.data.vote_average.toFixed(1)}
             </span>
             <button className={`${reviewFavoriteClass} font-normal`}>
               <Favorite />
@@ -194,7 +195,8 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           return (
             <UserReviewsTab
               reviewData={reviewQuery.data}
-              movieDataVote={movieQuery.data.vote_average}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
             />
           );
         })
