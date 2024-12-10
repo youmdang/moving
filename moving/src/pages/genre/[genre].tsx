@@ -8,6 +8,9 @@ import dayjs from 'dayjs';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import clsx from 'clsx';
+import { useModal } from '@/lib/hook/useModal';
+import ModalFrame from '@/components/modal/ModalFrame';
+import DetailModal from '@/components/detail/DetailModal';
 
 export default function genre() {
   const router = useRouter();
@@ -15,6 +18,8 @@ export default function genre() {
 
   const { genres, fetchGenres } = useGenreStore(); // 스토어에서 genres와 fetchGenres 사용
   const [genreId, setGenreId] = useState<string | null>(null);
+  const { isOpenModal, isOpacity, handleModalOpen, handleModalClose } =
+    useModal(); // 모달 연동
 
   useEffect(() => {
     // 장르 데이터를 가져오는 비동기 작업
@@ -51,6 +56,18 @@ export default function genre() {
 
   return (
     <div className="pt-[76px]">
+      <ModalFrame
+        isOpenModal={isOpenModal}
+        isOpacity={isOpacity}
+        handleModalClose={handleModalClose}
+      >
+        {isOpenModal && (
+          <DetailModal
+            isOpacity={isOpacity}
+            handleModalClose={handleModalClose}
+          />
+        )}
+      </ModalFrame>
       <div className="mx-[13vw]">
         <h1 className="my-14 text-[40px] font-bold text-white">'{genre}'</h1>
         <section className="mb-16">
@@ -59,7 +76,12 @@ export default function genre() {
             {data?.pages.map((page) =>
               page?.results.map((poster) => (
                 <li key={poster.id}>
-                  <div className="h-[245px] w-[7.9vw] truncate">
+                  <div
+                    className="h-[245px] w-[7.9vw] cursor-pointer truncate"
+                    onClick={() => {
+                      handleModalOpen(poster.id);
+                    }}
+                  >
                     <div className="relative mb-4 ">
                       <Image
                         src={`${BASE_IMAGE_URL}${poster.poster_path}`}
