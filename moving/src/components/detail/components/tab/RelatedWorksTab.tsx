@@ -21,7 +21,7 @@ export default function RelatedWorksTab({
   return (
     <>
       {recommendationData.results.length > 0 ? (
-        <div className="grid grid-cols-[repeat(6,1fr)] gap-x-6 gap-y-9 px-20 pb-10 text-white">
+        <div className="grid grid-cols-[repeat(3,1fr)] gap-x-4 gap-y-6 pb-10 text-white sm:grid-cols-[repeat(4,1fr)] sm:px-4 md:grid-cols-[repeat(5,1fr)] lg:grid-cols-[repeat(6,1fr)] lg:gap-x-6 lg:gap-y-9 lg:px-20">
           {recommendationData.results.map((result) => {
             const image = movieImage(result.poster_path);
             return (
@@ -39,10 +39,11 @@ export default function RelatedWorksTab({
                     src={image}
                     width={130}
                     height={178}
+                    className="max-h-[150px] min-h-[150px] sm:max-h-[178px] sm:min-h-[178px]"
                     alt="포스터 이미지"
                   />
                 </div>
-                <h4 className="line-clamp-1 text-base font-semibold text-white">
+                <h4 className="line-clamp-1 text-sm font-semibold text-white sm:text-base">
                   {result.title}
                 </h4>
               </div>
