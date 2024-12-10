@@ -86,7 +86,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
     <div className="relative mx-auto w-full max-w-[1080px] bg-[#000000]">
       <div
         className={clsx(
-          'mb-20 bg-cover bg-center bg-no-repeat px-20 pt-7',
+          'mb-10 bg-cover bg-center bg-no-repeat px-5 pt-7 md:mb-20 lg:px-20',
           modalAnimate && 'animate-zoomBg'
         )}
         style={{
@@ -98,30 +98,34 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
         </h2>
         <div>
           <div className="mb-4 flex items-center gap-6">
-            <span className={`${reviewFavoriteClass} font-semibold`}>
+            <div
+              className={`${reviewFavoriteClass} flex items-center font-semibold`}
+            >
               <Star />
-              {movieQuery.data.vote_average.toFixed(1)}
-            </span>
+              <span className="block pt-1">
+                {movieQuery.data.vote_average.toFixed(1)}
+              </span>
+            </div>
             <button className={`${reviewFavoriteClass} font-normal`}>
               <Favorite />
               관심
             </button>
           </div>
-          <h3 className="flex items-end gap-4 text-[46px] font-semibold text-white">
+          <h3 className="text-2xl font-semibold text-white sm:text-4xl lg:text-[46px]">
             {movieQuery.data.title}{' '}
-            <span className="text-3xl font-normal text-[#D9D9D9]">
+            <span className="text-lg font-normal text-[#D9D9D9] sm:text-2xl lg:text-3xl">
               ({movieYear})
             </span>
           </h3>
-          <ul className="flex items-center gap-2">
+          <ul className="mb-4 mt-3 flex flex-wrap items-center gap-2 lg:mb-6 lg:mt-4">
             {seriesQuery.data?.parts.length > 0 && (
-              <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
+              <li className="flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 pt-[2px] text-xs font-normal text-white">
                 시리즈 {seriesQuery.data?.parts.length}개
               </li>
             )}
 
             {ageQuery.data.iso_639_1 && (
-              <li className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white">
+              <li className="flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 pt-[2px] text-xs font-normal text-white">
                 {ageQuery.data?.certification === 'ALL'
                   ? ageQuery.data?.certification
                   : ageQuery.data?.certification + '세'}
@@ -133,7 +137,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
                 return (
                   <li
                     key={genre.id}
-                    className="mb-6 mt-4 flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 text-xs font-normal text-white"
+                    className="flex h-7 items-center justify-center rounded-xl border-[1px] border-white bg-[rgba(43,45,49,0.8)] px-4 pt-[2px] text-xs font-normal text-white"
                   >
                     {genre.name}
                   </li>
@@ -141,8 +145,8 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
               }
             )}
           </ul>
-          <div className="flex justify-between gap-6">
-            <p className="line-clamp-3 basis-[70%] break-keep text-sm font-normal text-white">
+          <div className="flex flex-col-reverse justify-between gap-4 md:flex-row lg:gap-6">
+            <p className="line-clamp-3 basis-[100%] text-sm font-normal text-white md:basis-[70%]">
               {movieQuery.data.overview}
             </p>
             <button
@@ -153,7 +157,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
                   query: { trailerKey: trailerQuery.data.key },
                 });
               }}
-              className="h-12 max-w-64 basis-[30%] rounded-xl bg-[#2D73F3] text-xl font-semibold text-white disabled:bg-gray"
+              className="h-10 max-w-full basis-[100%] rounded-xl bg-[#2D73F3] py-2 text-base font-semibold text-white disabled:bg-gray sm:text-lg md:max-w-64 md:basis-[30%] lg:h-12 lg:text-xl"
               disabled={!trailerQuery.data}
             >
               {!trailerQuery.data ? '영상이 없습니다.' : '시청하기'}
@@ -161,8 +165,8 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
           </div>
         </div>
       </div>
-      <div className="px-20">
-        <div className="mb-12 flex w-full items-center gap-4 border-b-2 border-white pb-4">
+      <div className="sm:px-5 lg:px-20">
+        <div className="mb-8 flex w-full items-center gap-2 border-b-2 border-white pb-4 sm:mb-12 sm:gap-4">
           {MOVIE_TAB_LIST.map((tab, index) => {
             const isActive =
               index === tabIsActive
@@ -175,7 +179,7 @@ export default function DetailModal({ isOpacity }: DetailModalProps) {
                 onClick={() => {
                   setTabIsActive(index);
                 }}
-                className={`relative px-4 text-base font-bold ${isActive}`}
+                className={`relative px-1 text-sm font-bold sm:px-2 sm:text-base md:px-4 ${isActive}`}
               >
                 {tab} {index === 2 && `${reviewQuery.data.total_results}+`}
               </button>
