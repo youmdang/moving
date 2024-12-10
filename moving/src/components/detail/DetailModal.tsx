@@ -1,6 +1,6 @@
 import Logo from '@/images/Logo.svg';
 import Star from '@/icons/starIcon.svg';
-import Favorite from '@/icons/FavoriteIcon.svg';
+import Favorite from '@/icons/favoriteIcon.svg';
 import { useEffect, useState } from 'react';
 import { match } from 'ts-pattern';
 import SeriesTab from './components/tab/SeriesTab';
