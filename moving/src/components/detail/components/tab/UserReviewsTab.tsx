@@ -65,16 +65,17 @@ export default function UserReviewsTab({
   }, [sliceNumber, sortText, sortedReviews]);
 
   return (
-    <div className="px-20 pb-10 text-white">
+    <div className="px-3 pb-10 text-white sm:px-5 lg:px-20">
       <div className="mb-12 flex items-center justify-center gap-6">
         <Image
           src="/images/reviewBgLeft.png"
           width={58}
           height={129}
+          className="h-[115px] w-[44px] sm:h-[129px] sm:w-[58px]"
           alt="리뷰 배경 이미지"
         />
         <div className="flex flex-col items-center gap-3">
-          <h3 className="text-3xl font-bold text-[#F29B2E]">
+          <h3 className="text-2xl font-bold text-[#F29B2E] md:text-3xl">
             {reviewStarResult}
           </h3>
           <span className="text-sm font-normal text-[#D9D9D9]">
@@ -93,6 +94,7 @@ export default function UserReviewsTab({
                         }
                         width={28}
                         height={28}
+                        className="h-[20px] w-[20px] sm:h-[28px] sm:w-[28px]"
                         alt="별점 아이콘"
                       />
                     </span>
@@ -105,6 +107,7 @@ export default function UserReviewsTab({
                         src="icons/starOutIcon.svg"
                         width={28}
                         height={28}
+                        className="h-[20px] w-[20px] sm:h-[28px] sm:w-[28px]"
                         alt="별점 아이콘"
                       />
                     </span>
@@ -116,14 +119,17 @@ export default function UserReviewsTab({
           src="/images/reviewBgRight.png"
           width={58}
           height={129}
+          className="h-[115px] w-[44px] sm:h-[129px] sm:w-[58px]"
           alt="리뷰 배경 이미지"
         />
       </div>
 
       {reviewData.results.length > 0 ? (
         <>
-          <div className="mb-12 flex items-center justify-between">
-            <span>리뷰 ({reviewData.total_results})</span>
+          <div className="mb-8 flex items-center justify-between sm:mb-12">
+            <span className="text-sm sm:text-base">
+              리뷰 ({reviewData.total_results})
+            </span>
             <ReviewDropDown sortText={sortText} setSortText={setSortText} />
           </div>
           {pageReviewList.map((result) => {
@@ -133,7 +139,7 @@ export default function UserReviewsTab({
             return (
               <div
                 key={result.id}
-                className="mb-10 border-b-2 border-[#2D313A] pb-10"
+                className="mb-5 border-b-2 border-[#2D313A] pb-5 sm:mb-10 sm:pb-10"
               >
                 <div className="mb-4 flex justify-between">
                   <div>
@@ -142,7 +148,7 @@ export default function UserReviewsTab({
                         src={profileImage}
                         width={33}
                         height={33}
-                        className="h-[33px] w-[33px] rounded-full"
+                        className="h-[28px] w-[28px] rounded-full sm:h-[33px] sm:w-[33px]"
                         alt="프로필 이미지"
                       />
                       {result.author_details.username}
@@ -159,6 +165,7 @@ export default function UserReviewsTab({
                               }
                               width={20}
                               height={20}
+                              className="h-[16px] w-[16px] sm:h-[20px] sm:w-[20px]"
                               alt="별점 아이콘"
                             />
                           </span>
@@ -168,12 +175,14 @@ export default function UserReviewsTab({
                         {result.author_details.rating / 2}
                       </span>
                     </div>
-                    <span className="text-xs font-normal text-[#77777777]">
+                    <span className="text-xs font-normal text-[#ebebeb]">
                       {ageText}
                     </span>
                   </div>
                 </div>
-                <p className="text-base font-normal">{result.content}</p>
+                <p className="text-sm font-normal sm:text-base">
+                  {result.content}
+                </p>
               </div>
             );
           })}

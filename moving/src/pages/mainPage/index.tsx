@@ -36,7 +36,12 @@ export default function mainPage() {
           isOpacity={isOpacity}
           handleModalClose={handleModalClose}
         >
-          {isOpenModal && <DetailModal isOpacity={isOpacity} />}
+          {isOpenModal && (
+            <DetailModal
+              isOpacity={isOpacity}
+              handleModalClose={handleModalClose}
+            />
+          )}
         </ModalFrame>
 
         <MainBanner handleModalOpen={handleModalOpen} />

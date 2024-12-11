@@ -20,10 +20,10 @@ export default function ReviewDropDown({
   };
 
   return (
-    <div className="relative w-32 text-base">
+    <div className="relative w-28 md:w-32">
       <button
         type="button"
-        className="relative w-full"
+        className="relative w-full text-sm sm:text-base"
         onClick={() => {
           setIsOpen((prev) => !prev);
         }}
@@ -48,7 +48,7 @@ export default function ReviewDropDown({
             <li key={index}>
               <button
                 type="button"
-                className="w-full rounded-lg p-2 hover:bg-[#5c5a5d]"
+                className="w-full rounded-lg p-2 text-sm hover:bg-[#5c5a5d] sm:text-base"
                 onClick={() => {
                   setSortText(sort);
                   setIsOpen(false);
