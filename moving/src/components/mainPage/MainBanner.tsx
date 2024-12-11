@@ -8,7 +8,7 @@ import {
 import { BASE_IMAGE_URL } from '@/api/mainpageAPI';
 import { CrewMember } from '@/types/mainPage/mainbanner';
 import { useVideos } from '@/hook/mainpage/useVideos';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { motion } from 'framer-motion';
 
@@ -20,12 +20,30 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
   const { data: bannerImage, isLoading, isError } = useRecommendationMovie();
   const [currentGroupIndex, setCurrentGroupIndex] = useState(0);
   const [currentMovieIndex, setCurrentMovieIndex] = useState(0);
+  const [itemsPerGroup, setItemsPerGroup] = useState(4);
+
+  useEffect(() => {
+    const updateItemsPerGroup = () => {
+      const width = window.innerWidth;
+      if (width <= 768) {
+        setItemsPerGroup(2);
+      } else if (width <= 1280) {
+        setItemsPerGroup(3);
+      } else {
+        setItemsPerGroup(4);
+      }
+    };
+
+    updateItemsPerGroup();
+    window.addEventListener('resize', updateItemsPerGroup);
+    return () => window.removeEventListener('resize', updateItemsPerGroup);
+  }, []);
 
   const limitedData = bannerImage?.results ?? [];
 
   const currentGroup = limitedData?.slice(
-    currentGroupIndex * 4,
-    (currentGroupIndex + 1) * 4
+    currentGroupIndex * itemsPerGroup,
+    (currentGroupIndex + 1) * itemsPerGroup
   );
 
   const currentMovie = currentGroup.length
@@ -39,7 +57,7 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
   );
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return;
   }
 
   if (isError) {
@@ -47,10 +65,10 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
   }
 
   if (!limitedData || limitedData.length === 0) {
-    return <div>추천영화가 없습니다.</div>;
+    return;
   }
   const handleNext = () => {
-    if (currentGroupIndex < Math.ceil(limitedData.length / 4) - 1) {
+    if (currentGroupIndex < Math.ceil(limitedData.length / itemsPerGroup) - 1) {
       setCurrentGroupIndex((prev) => prev + 1);
       setCurrentMovieIndex(0); // 다음 그룹의 첫 번째 영화로 이동
     }
@@ -74,7 +92,7 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
           className="absolute inset-0 
       bg-gradient-to-t from-[#131518] to-[rgba(59,63,69,0)]"
         />
-        <div className="flex h-[708px] w-full items-center justify-center overflow-hidden">
+        <div className="flex h-[430px] w-full items-center  justify-center overflow-hidden md:h-[600px] xl:h-[708px]">
           {videoData?.results[0]?.key ? (
             <iframe
               width={3320}
@@ -112,11 +130,11 @@ export default function MainBanner({ handleModalOpen }: MainBannerProps) {
             {currentGroup?.map((poster, index) => (
               <motion.li
                 whileHover={{ scale: 0.9 }}
-                onClick={() => {
-                  handleMovieClick(index);
+                onDoubleClick={() => {
                   handleModalOpen?.(poster.id);
                 }}
-                className="relative h-[10vw] w-[19vw]"
+                onClick={() => handleMovieClick(index)}
+                className="relative h-[21vw] w-[40vw] md:h-[14vw] md:w-[26vw] xl:h-[10vw] xl:w-[19vw]"
               >
                 <Image
                   key={poster.id}
