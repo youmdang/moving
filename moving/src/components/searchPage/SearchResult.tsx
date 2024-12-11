@@ -56,12 +56,10 @@ export default function SearchResult({
         {data?.pages.map((page) =>
           page?.results.map((poster) => (
             <li key={poster.id}>
-              <div
-                className="h-[245px] w-[7.9vw] cursor-pointer truncate"
+              <div className="h-[230px] w-[22vw] truncate md:h-[23vw] md:w-[11vw] xl:h-[18vw] xl:w-[7.9vw]"
                 onClick={() => {
                   handleModalOpen(poster.id);
-                }}
-              >
+                }}>
                 <div className="relative mb-4 ">
                   <Image
                     src={`${BASE_IMAGE_URL}${poster.poster_path}`}

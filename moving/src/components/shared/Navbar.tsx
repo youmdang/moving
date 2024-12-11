@@ -67,7 +67,7 @@ export default function Navbar() {
       transition={{ duration: 0.5 }}
       className="fixed top-0 z-50 w-full"
     >
-      <header className="mx-40 my-[26.75px] flex items-center justify-between">
+      <header className="mx-4 my-[26.75px] flex items-center justify-between md:mx-6 xl:mx-40">
         <button onClick={handleLogo}>
           <Logo />
         </button>
@@ -77,7 +77,7 @@ export default function Navbar() {
             onClick={toggleDropdown}
             className=" relative mr-10 flex items-center"
           >
-            <span className=" mr-4 text-white">장르</span>
+            <span className=" mr-4 text-nowrap text-white">장르</span>
             <DropdownIcon />
             <div
               ref={dropdownRef}
@@ -103,12 +103,12 @@ export default function Navbar() {
               </ul>
             </div>
           </button>
-          <div className="flex h-9 w-[360px] items-center justify-between rounded-lg bg-[#404040] px-4 opacity-50">
+          <div className="flex h-6 w-52 items-center justify-between rounded-lg bg-[#404040] px-4 opacity-50 md:w-64 xl:h-9 xl:w-[360px]">
             <input
               ref={inputRef}
               type="text"
               placeholder="영화 제목을 입력해 주세요."
-              className="w-full bg-transparent focus:outline-none"
+              className="mb-[3px] w-full bg-transparent  placeholder:text-xs focus:outline-none"
               onKeyDown={handleKeyDown}
             />
             <span className="relative cursor-pointer">

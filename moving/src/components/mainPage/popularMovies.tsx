@@ -15,7 +15,7 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
   const [startIndex, setStartIndex] = useState(0);
 
   if (isLoading) {
-    return <div> 로딩중</div>;
+    return;
   }
 
   if (isError) {
@@ -38,7 +38,7 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
     <section className="relative ml-[8.5vw] mt-[72px] flex flex-col overflow-hidden">
       <h2 className="mb-12 text-2xl font-bold">🏆 인기 영화 TOP 10</h2>
       <ul
-        className="flex gap-[2vw] transition-transform duration-500"
+        className="scrollbar-hide flex gap-[2vw] overflow-y-hidden overflow-x-scroll pt-6 transition-transform duration-500"
         style={{
           transform: `translateX(-${startIndex * 20}vw)`, // 슬라이드 이동
         }}
@@ -50,7 +50,7 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
               handleModalOpen?.(poster.id);
             }}
             key={poster.id}
-            className="relative h-[10.4vw] w-[18.7vw] shrink-0 cursor-pointer "
+            className="relative h-[24vw] w-[36vw] shrink-0 cursor-pointer  md:h-[20vw] md:w-[30vw] xl:h-[10.4vw] xl:w-[18.7vw] "
           >
             <Image
               src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}
@@ -83,26 +83,28 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
           </motion.li>
         ))}
       </ul>
-      <div
-        onClick={handleNextSlide}
-        className={
-          startIndex === 6
-            ? 'hidden'
-            : 'absolute bottom-0 right-0 flex h-[10.4vw] w-[45px] cursor-pointer items-center justify-center rounded-2xl bg-black opacity-25 hover:opacity-80'
-        }
-      >
-        <RightArrow />
-      </div>
+      <div className="hidden xl:block">
+        <div
+          onClick={handleNextSlide}
+          className={
+            startIndex === 6
+              ? 'hidden'
+              : 'absolute bottom-0 right-0 flex h-[10.4vw] w-[45px] cursor-pointer items-center justify-center rounded-2xl bg-black opacity-25 hover:opacity-80'
+          }
+        >
+          <RightArrow />
+        </div>
 
-      <div
-        onClick={handlePrevSlide}
-        className={
-          startIndex === 0
-            ? 'hidden'
-            : 'absolute bottom-0 left-0 flex h-[10.4vw] w-[45px] cursor-pointer items-center justify-center rounded-2xl bg-black opacity-25 hover:opacity-80'
-        }
-      >
-        <LeftArrow />
+        <div
+          onClick={handlePrevSlide}
+          className={
+            startIndex === 0
+              ? 'hidden'
+              : 'absolute bottom-0 left-0 flex h-[10.4vw] w-[45px] cursor-pointer items-center justify-center rounded-2xl bg-black opacity-25 hover:opacity-80'
+          }
+        >
+          <LeftArrow />
+        </div>
       </div>
     </section>
   );

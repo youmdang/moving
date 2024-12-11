@@ -63,16 +63,20 @@ export default function mainPage() {
 
       <footer className="mt-[108px] opacity-60">
         <hr className="border-[#1E1E1E]" />
-        <div className="mx-[160px] my-5 flex gap-4 text-base text-[#dfdfdf]  ">
-          <span>회사 소개</span>
-          <span>서비스 소개</span>
-          <span>이용약관</span>
-          <span>개인정보 처리방침</span>
-          <span>고객센터</span>
-          <span>이벤트</span>
+        <div className="mx-[25px] my-5 gap-4 text-sm text-[#dfdfdf] md:flex xl:mx-[160px] xl:text-base  ">
+          <div className="flex gap-4">
+            <span>회사 소개</span>
+            <span>서비스 소개</span>
+            <span>이용약관</span>
+          </div>
+          <div className="flex gap-4">
+            <span>개인정보 처리방침</span>
+            <span>고객센터</span>
+            <span>이벤트</span>
+          </div>
         </div>
         <hr className="border-[#1E1E1E]" />
-        <div className="mx-[160px] mt-10">
+        <div className="mx-[25px] mt-10 xl:mx-[160px]">
           <div className="mb-[30px] flex justify-between">
             <LogoGray />
             <div className="flex gap-4">
