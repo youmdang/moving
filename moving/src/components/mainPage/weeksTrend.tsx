@@ -36,9 +36,9 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
   }
 
   return (
-    <section className="mx-[8.5vw] mt-[96px] flex flex-col ">
+    <section className="ml-[8.5vw] mt-[96px] flex flex-col md:mr-0 xl:mr-[8.5vw] ">
       <h2 className="mb-7 text-2xl font-bold">🔥이번주 트렌드</h2>
-      <ul className="flex justify-between">
+      <ul className="scrollbar-hide flex justify-between gap-8 overflow-y-hidden overflow-x-scroll">
         {limitedData?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
@@ -46,9 +46,9 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
               handleModalOpen?.(poster.id);
             }}
             key={poster.id}
-            className="h-auto max-w-[11vw] cursor-pointer "
+            className="h-[48vw] max-w-[30vw] cursor-pointer pl-4 pt-6 md:h-[35vw] md:max-w-[23vw] xl:h-auto  xl:max-w-[11vw] "
           >
-            <div className="relative h-[14.5vw] w-[10.53vw] ">
+            <div className="relative h-[30vw] w-[25vw] md:h-[23vw] md:w-[18vw] xl:h-[14.5vw] xl:w-[10.53vw] ">
               <Image
                 src={`${BASE_IMAGE_URL}${poster.poster_path}`}
                 layout="fill"
