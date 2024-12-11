@@ -23,7 +23,7 @@ export default function BeforeOpening({ handleModalOpen }: BeforeOpeningProps) {
   return (
     <section className="ml-[8.5vw] mt-14 flex flex-col md:mr-0 xl:mr-[8.5vw] ">
       <h2 className="mb-7 text-2xl font-bold">❓곧 공개되는 신작영화</h2>
-      <ul className="scrollbar-hide flex overflow-y-hidden overflow-x-scroll  md:gap-[14vw] xl:gap-[1.8vw]">
+      <ul className="scrollbar-hide flex gap-[20vw] overflow-y-hidden overflow-x-scroll  md:gap-[14vw] xl:gap-[1.8vw]">
         {limited?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
@@ -31,9 +31,9 @@ export default function BeforeOpening({ handleModalOpen }: BeforeOpeningProps) {
               handleModalOpen?.(poster.id);
             }}
             key={poster.id}
-            className="relative h-auto max-w-[14.53vw] cursor-pointer md:py-5 md:pl-4"
+            className="relative h-auto max-w-[14.53vw] cursor-pointer sm:py-5 sm:pl-4"
           >
-            <div className="relative md:h-[29vw] md:w-[25vw] xl:h-[18.54vw] xl:w-[14.53vw] ">
+            <div className="relative h-[32vw] w-[30vw] md:h-[29vw] md:w-[25vw] xl:h-[18.54vw] xl:w-[14.53vw] ">
               <Image
                 src={`${BASE_IMAGE_URL}${poster.poster_path}`}
                 layout="fill"
@@ -41,7 +41,7 @@ export default function BeforeOpening({ handleModalOpen }: BeforeOpeningProps) {
                 className="rounded-2xl blur-[1px] "
               />
             </div>
-            <div className="absolute inset-0 flex items-center justify-center rounded-2xl border border-[#f2b42e] bg-black text-[1vw] text-[#f2b42e] opacity-80 md:left-4 md:top-5 md:h-[29vw] md:w-[25vw] xl:h-[18.54vw] xl:w-[14.53vw]">
+            <div className="sm:-[3vw] md:-[2vw] absolute inset-0 flex h-[32vw] w-[30vw] items-center justify-center rounded-2xl border border-[#f2b42e] bg-black text-[#f2b42e] opacity-80 sm:left-4 sm:top-5 md:h-[29vw] md:w-[25vw] xl:h-[18.54vw] xl:w-[14.53vw] xl:text-[1vw]">
               <span className="mr-2 font-light">Released at</span>
               <span className="font-medium">
                 {dayjs(poster.release_date).format('YYYY · MM')}

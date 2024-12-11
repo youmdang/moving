@@ -50,7 +50,7 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
               handleModalOpen?.(poster.id);
             }}
             key={poster.id}
-            className="relative shrink-0 cursor-pointer md:h-[20vw] md:w-[30vw] xl:h-[10.4vw] xl:w-[18.7vw] "
+            className="relative h-[24vw] w-[36vw] shrink-0 cursor-pointer  md:h-[20vw] md:w-[30vw] xl:h-[10.4vw] xl:w-[18.7vw] "
           >
             <Image
               src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}

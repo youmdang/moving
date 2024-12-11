@@ -38,7 +38,7 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
   return (
     <section className="ml-[8.5vw] mt-[96px] flex flex-col md:mr-0 xl:mr-[8.5vw] ">
       <h2 className="mb-7 text-2xl font-bold">🔥이번주 트렌드</h2>
-      <ul className="scrollbar-hide flex justify-between gap-8 overflow-y-hidden overflow-x-scroll">
+      <ul className="scrollbar-hide flex gap-[2.8vw] overflow-y-hidden overflow-x-scroll">
         {limitedData?.map((poster) => (
           <motion.li
             whileHover={{ scale: 1.1 }}
@@ -46,7 +46,7 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
               handleModalOpen?.(poster.id);
             }}
             key={poster.id}
-            className="h-[48vw] max-w-[30vw] cursor-pointer pl-4 pt-6 md:h-[35vw] md:max-w-[23vw] xl:h-auto  xl:max-w-[11vw] "
+            className="h-[55vw] max-w-[30vw] cursor-pointer py-6 pl-4 md:h-[35vw] md:max-w-[23vw] xl:h-auto  xl:max-w-[11vw] "
           >
             <div className="relative h-[30vw] w-[25vw] md:h-[23vw] md:w-[18vw] xl:h-[14.5vw] xl:w-[10.53vw] ">
               <Image
@@ -57,12 +57,12 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
               />
             </div>
             <div className=" my-2 flex items-center justify-between">
-              <span className="max-w-[6.5vw] truncate break-normal text-[1vw] font-semibold">
+              <span className="md: max-w-[14vw] truncate break-normal text-[3vw] font-semibold md:text-[2vw] xl:max-w-[6.5vw] xl:text-[1vw]">
                 {poster.title}
               </span>
               <div className="ml-1 flex items-center">
                 <StarIcon />
-                <span className="ml-2 text-sm">
+                <span className="ml-2 text-xs xl:text-sm">
                   {poster.vote_average.toFixed(1)}
                 </span>
               </div>
@@ -71,7 +71,7 @@ export default function WeeksTrend({ handleModalOpen }: WeeksTrendProps) {
               <span className="text-sm">
                 {dayjs(poster.release_date).format('YYYY')}
               </span>
-              <span className="ml-2 truncate rounded-lg border border-[#f2b42e] px-2 py-[3px] text-[0.65vw]">
+              <span className="ml-2 truncate rounded-lg border border-[#f2b42e] px-2 py-[3px] text-[1.7vw] md:text-[0.7vw] xl:text-[0.65vw]">
                 {getGenreNames(poster.genre_ids).join(', ')}
               </span>
             </div>
