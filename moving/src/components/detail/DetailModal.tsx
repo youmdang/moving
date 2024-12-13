@@ -12,6 +12,7 @@ import clsx from 'clsx';
 import { useModalAnimateStore } from '@/lib/store/modalAnimateStore';
 import { useRouter } from 'next/router';
 import { useModalData } from '@/lib/hook/useModalData';
+import LoadingSpinners from '../shared/LoadingSpinners';
 
 interface DetailModalProps {
   isOpacity: boolean;
@@ -74,7 +75,7 @@ export default function DetailModal({
     trailerQuery.isLoading ||
     !movieNumber
   ) {
-    return <div>로딩중...</div>;
+    return <LoadingSpinners />;
   }
 
   if (
