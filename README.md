@@ -18,7 +18,7 @@
 [노션 상세 계획 링크](https://www.notion.so/12e2e48b770d805cb0d3ddb022f87f83)
 
 ## 📄 배포 사이트
-[배포 사이트 링크](https://moving-18jw.vercel.app/)
+[배포 사이트 링크](https://ott-moving.vercel.app/)
 
 ## 📚 기술 스택
 <div>
