@@ -37,52 +37,56 @@ export default function PopularMovies({ handleModalOpen }: PopularMoviesProps) {
   return (
     <section className="relative ml-[8.5vw] mt-[72px] flex flex-col overflow-hidden">
       <h2 className="mb-12 text-2xl font-bold">🏆 인기 영화 TOP 10</h2>
-      <ul
-        className="scrollbar-hide flex gap-[2vw] overflow-y-hidden overflow-x-scroll pt-6 transition-transform duration-500"
-        style={{
-          transform: `translateX(-${startIndex * 20}vw)`, // 슬라이드 이동
-        }}
-      >
-        {limited?.map((poster, index) => (
-          <motion.li
-            whileHover={{ scale: 0.9 }}
-            onClick={() => {
-              handleModalOpen?.(poster.id);
-            }}
-            key={poster.id}
-            className="relative h-[24vw] w-[36vw] shrink-0 cursor-pointer  md:h-[20vw] md:w-[30vw] xl:h-[10.4vw] xl:w-[18.7vw] "
-          >
-            <Image
-              src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}
-              layout="fill" // 부모의 크기에 맞춤
-              objectFit="cover" // 부모 크기에 맞게 자름
-              alt="세로 포스터"
-              className="rounded-2xl"
-            />
-            <div className="absolute inset-0 rounded-2xl bg-black opacity-50" />
-            <div className="absolute left-2 top-[-30px] text-5xl font-black italic text-white">
-              {index + 1}
-            </div>
-            <div className="absolute inset-0 flex flex-col justify-between p-4">
-              <div className="flex items-center justify-end gap-1">
-                <EyesIcon />
-                <span className="text-sm font-normal">{poster.vote_count}</span>
+      <div className="scrollbar-hide overflow-y-hidden overflow-x-scroll">
+        <ul
+          className=" flex gap-[2vw]  pt-6 transition-transform duration-500"
+          style={{
+            transform: `translateX(-${startIndex * 20}vw)`, // 슬라이드 이동
+          }}
+        >
+          {limited?.map((poster, index) => (
+            <motion.li
+              whileHover={{ scale: 0.9 }}
+              onClick={() => {
+                handleModalOpen?.(poster.id);
+              }}
+              key={poster.id}
+              className="relative h-[24vw] w-[36vw] shrink-0 cursor-pointer  md:h-[20vw] md:w-[30vw] xl:h-[10.4vw] xl:w-[18.7vw] "
+            >
+              <Image
+                src={`${BASE_IMAGE_URL}${poster.backdrop_path}`}
+                layout="fill" // 부모의 크기에 맞춤
+                objectFit="cover" // 부모 크기에 맞게 자름
+                alt="세로 포스터"
+                className="rounded-2xl"
+              />
+              <div className="absolute inset-0 rounded-2xl bg-black opacity-50" />
+              <div className="absolute left-2 top-[-30px] text-5xl font-black italic text-white">
+                {index + 1}
               </div>
-              <div className="flex justify-between">
-                <span className="w-[12vw] truncate text-xl font-semibold">
-                  {poster.title}
-                </span>
-                <div>
-                  <span className="text-base font-medium">
-                    {poster.vote_average.toFixed(1)}
+              <div className="absolute inset-0 flex flex-col justify-between p-4">
+                <div className="flex items-center justify-end gap-1">
+                  <EyesIcon />
+                  <span className="text-sm font-normal">
+                    {poster.vote_count}
                   </span>
-                  <span>{`(${poster.vote_count})`}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="w-[12vw] truncate text-xl font-semibold">
+                    {poster.title}
+                  </span>
+                  <div>
+                    <span className="text-base font-medium">
+                      {poster.vote_average.toFixed(1)}
+                    </span>
+                    <span>{`(${poster.vote_count})`}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.li>
-        ))}
-      </ul>
+            </motion.li>
+          ))}
+        </ul>
+      </div>
       <div className="hidden xl:block">
         <div
           onClick={handleNextSlide}
